@@ -13,6 +13,7 @@ import java.nio.file.Path;
 
 public class PingApp extends Application {
     public static Path rootPath = null;
+    public static Path actualPath = null;
 
     @Override
     public void start(Stage stage) throws IOException {

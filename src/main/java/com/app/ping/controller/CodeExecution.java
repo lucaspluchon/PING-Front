@@ -5,6 +5,7 @@ import javafx.animation.RotateTransition;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
+import org.fxmisc.richtext.StyledTextArea;
 
 import java.io.Console;
 import java.io.IOException;
@@ -24,12 +25,12 @@ public class CodeExecution
         return (stderr.split(path.toAbsolutePath().toString(), -1).length) - 1;
     }
 
-    public static void execute(TextArea consoleResult, TextArea textEditor, BorderPane window) throws IOException, InterruptedException
+    public static void execute(TextArea consoleResult, StyledTextArea textEditor, BorderPane window) throws IOException, InterruptedException
     {
         TextIde.saveFile(textEditor);
-        String[] cmd = {"swipl", "-s", PingApp.rootPath.toAbsolutePath().toString(), "-t" ,"halt.", "-q"};
+        String[] cmd = {"swipl", "-s", PingApp.actualPath.toAbsolutePath().toString(), "-t" ,"halt.", "-q"};
         ProcessBuilder pb = new ProcessBuilder(cmd);
-        pb.directory(PingApp.rootPath.toAbsolutePath().getParent().toFile());
+        pb.directory(PingApp.actualPath.toAbsolutePath().getParent().toFile());
         Process process = pb.start();
         process.waitFor();
         String stdout = new String(process.getInputStream().readAllBytes());

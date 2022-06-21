@@ -1,6 +1,7 @@
 module com.example.pingfront {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.fxmisc.richtext;
 
 
     opens com.app.ping to javafx.fxml;

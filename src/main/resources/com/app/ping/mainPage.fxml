@@ -5,16 +5,12 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
 
 <BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.ping.Controller">
-   <center>
-      <TextArea fx:id="textEditor" onKeyReleased="#updateTextIde" prefHeight="324.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Comic Sans MS" size="13.0" />
-         </font></TextArea>
-   </center>
    <top>
       <TextArea fx:id="consoleResult" editable="false" prefHeight="76.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <font>
@@ -28,7 +24,8 @@
                <contextMenu>
                   <ContextMenu fx:id="contextMenu">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open file/project" />
+                        <MenuItem mnemonicParsing="false" onAction="#openFolder" text="Open project" />
+                        <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open file" />
                       <MenuItem mnemonicParsing="false" onAction="#executeCode" text="Run this file" />
                         <MenuItem mnemonicParsing="false" text="Settings" />
                     </items>
@@ -42,6 +39,12 @@
          <rotationAxis>
             <Point3D y="1.0" />
          </rotationAxis>
+         <center>
+            <TreeView fx:id="projectTree" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
       </BorderPane>
    </right>
+   <center>
+      <StyleClassedTextArea fx:id="textEditor" lineHighlighterOn="true" onKeyReleased="#updateTextIde" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>
