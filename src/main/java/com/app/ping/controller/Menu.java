@@ -7,7 +7,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import org.fxmisc.richtext.StyledTextArea;
+import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class Menu
         contextMenu.show(menuButton.getScene().getWindow(), position.getCenterX(), position.getCenterY());
     }
 
-    public static void openFile(Button menuButton, StyledTextArea textEditor, TreeView<NodeClass> tree) throws IOException {
+    public static void openFile(Button menuButton, CodeArea textEditor, TreeView<NodeClass> tree) throws IOException {
         File file = fileChooser.showOpenDialog(menuButton.getScene().getWindow());
         if (file != null)
         {
@@ -41,7 +41,7 @@ public class Menu
         }
     }
 
-    public static void openFolder(Button menuButton, TreeView<NodeClass> tree, StyledTextArea textIde)
+    public static void openFolder(Button menuButton, TreeView<NodeClass> tree, CodeArea textIde)
     {
         File file = directoryChooser.showDialog(menuButton.getScene().getWindow());
         if (file != null)

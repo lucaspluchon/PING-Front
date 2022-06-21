@@ -4,7 +4,7 @@ import com.app.ping.Controller;
 import com.app.ping.PingApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import org.fxmisc.richtext.StyledTextArea;
+import org.fxmisc.richtext.CodeArea;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,7 +17,7 @@ public class TextIde
 {
     private static long lastKeyPressed = 0;
 
-    public static void saveFile(StyledTextArea textEditor) throws IOException
+    public static void saveFile(CodeArea textEditor) throws IOException
     {
         if (PingApp.actualPath != null)
         {
@@ -27,7 +27,7 @@ public class TextIde
         }
     }
 
-    public static void readFile(StyledTextArea textEditor, File file) throws IOException
+    public static void readFile(CodeArea textEditor, File file) throws IOException
     {
         if (PingApp.actualPath == null || !PingApp.actualPath.toAbsolutePath().toString().equals(file.toPath().toAbsolutePath().toString()))
         {
@@ -40,7 +40,7 @@ public class TextIde
         }
     }
 
-    public static void update(StyledTextArea textEditor) throws IOException
+    public static void update(CodeArea textEditor) throws IOException
     {
         long actualTime = Instant.now().getEpochSecond();
         if (actualTime - lastKeyPressed >= 2)

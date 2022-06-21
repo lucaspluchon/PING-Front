@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-<?import org.fxmisc.richtext.StyleClassedTextArea?>
+<?import org.fxmisc.richtext.CodeArea?>
 
 <BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.ping.Controller">
    <top>
@@ -45,6 +45,6 @@
       </BorderPane>
    </right>
    <center>
-      <StyleClassedTextArea fx:id="textEditor" lineHighlighterOn="true" onKeyReleased="#updateTextIde" BorderPane.alignment="CENTER" />
+      <CodeArea fx:id="textEditor" autoHeight="true" lineHighlighterOn="true" onKeyReleased="#updateTextIde" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

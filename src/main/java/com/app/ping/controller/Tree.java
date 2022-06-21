@@ -6,7 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import org.fxmisc.richtext.StyledTextArea;
+import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class Tree {
         tree.setRoot(new TreeItem<>(new NodeClass(NodeType.FOLDER, file)));
     }
 
-    public static void initFolder(TreeView<NodeClass> tree, File folder, StyledTextArea textIde)
+    public static void initFolder(TreeView<NodeClass> tree, File folder, CodeArea textIde)
     {
         tree.setRoot(new TreeItem<>(new NodeClass(NodeType.FOLDER, folder.toPath())));
 
