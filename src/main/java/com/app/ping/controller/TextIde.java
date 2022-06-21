@@ -19,7 +19,6 @@ public class TextIde
         if (PingApp.rootPath != null)
         {
             BufferedWriter file = new BufferedWriter(new FileWriter(PingApp.rootPath.toFile()));
-            System.out.println(textEditor.getText());
             file.write(textEditor.getText());
             file.close();
         }
