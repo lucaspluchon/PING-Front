@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.util.Pair;
 import org.json.JSONObject;
@@ -115,8 +117,16 @@ public class WeatherManager
         }
     }
 
-    public static void main(String[] args)
+    public static void setTimer()
     {
-        System.out.println(getWeatherReport());
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(WeatherManager.getWeatherReport());
+            }
+        }, 0, 300000);
+
     }
+
 }

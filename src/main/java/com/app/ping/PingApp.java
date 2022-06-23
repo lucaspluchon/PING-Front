@@ -5,12 +5,16 @@ import com.app.ping.controller.Menu;
 import com.app.ping.controller.TextIde;
 import com.app.ping.weather.WeatherManager;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Timer;
 
 public class PingApp extends Application {
     public static Path rootPath = null;
@@ -23,6 +27,12 @@ public class PingApp extends Application {
         stage.setTitle("Project Premier Gaou");
         stage.setScene(scene);
         stage.show();
+        WeatherManager.setTimer();
+        stage.setOnCloseRequest(event ->
+        {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     public static void main(String[] args) {
