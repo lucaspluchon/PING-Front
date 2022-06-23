@@ -3,7 +3,6 @@ module com.example.pingfront {
     requires javafx.fxml;
     requires org.fxmisc.richtext;
     requires json;
-    requires json;
 
 
     opens com.app.ping to javafx.fxml;

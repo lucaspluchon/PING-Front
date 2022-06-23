@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
 
 import javafx.util.Pair;
 import org.json.JSONObject;
@@ -13,16 +12,25 @@ import org.json.JSONObject;
 
 public class WeatherManager
 {
+    /// OpenWeatherMap api key
+    private static final String OPEN_WEATHER_MAP_API_KEY = "ea57dfd61e2a2140837dcef81165fb74";
+
+    /**
+     * Make a url request using JSON body type
+     *
+     * @param url url of the request
+     * @return the JSON body of the http response
+     * @throws IOException If the request fail
+     */
     static public JSONObject request(String url) throws IOException
     {
         URL urli = new URL(url);
-        HttpURLConnection http = (HttpURLConnection)urli.openConnection();
+        HttpURLConnection http = (HttpURLConnection) urli.openConnection();
         http.setRequestProperty("Accept", "application/json");
         StringBuilder content = new StringBuilder();
         String line;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(http.getInputStream()));
 
-        // reading from the urlconnection using the bufferedreader
         while ((line = bufferedReader.readLine()) != null)
         {
             content.append(line).append("\n");
@@ -32,9 +40,17 @@ public class WeatherManager
         return new JSONObject(content.toString());
     }
 
+    /**
+     * Make a request to get weather at a given location using OpenWeatherMap API
+     *
+     * @param lon longitude for the coord
+     * @param lat latitude for the coord
+     * @return the JSON body representing the weather condition
+     * @throws IOException if the request fail
+     */
     static public JSONObject getWeather(String lon, String lat) throws IOException
     {
-        return request("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=ea57dfd61e2a2140837dcef81165fb74");
+        return request("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + OPEN_WEATHER_MAP_API_KEY);
     }
 
     static public String getIP()
@@ -71,22 +87,36 @@ public class WeatherManager
         return (int) clouds.get("all");
     }
 
-
-    public static void main(String[] args)
+    public static float getRain(JSONObject data)
     {
+        if (!data.keySet().contains("rain"))
+            return 0;
+        JSONObject clouds = (JSONObject) data.get("rain");
+        return (float) clouds.get("1h");
+    }
 
+    /**
+     * Get a weather report at the current location
+     *
+     * @return {@link WeatherReport} containing the weather If one of the request fail the function returns null
+     */
+    public static WeatherReport getWeatherReport()
+    {
         String ip = getIP();
         Pair<String, String> coord = getLocation(ip);
         assert coord != null;
         try
         {
             JSONObject weather = getWeather(coord.getValue(), coord.getKey());
-            System.out.println(getCloud(weather));
+            return new WeatherReport(getCloud(weather), getRain(weather));
         } catch (IOException e)
         {
-            System.out.println("Error");
+            return null;
         }
+    }
 
-
+    public static void main(String[] args)
+    {
+        System.out.println(getWeatherReport());
     }
 }
