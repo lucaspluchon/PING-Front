@@ -5,17 +5,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.app.ping.NodeClass;
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
+import org.fxmisc.richtext.CodeArea;
 import org.json.JSONObject;
+import com.app.ping.Controller;
 
 
 public class WeatherManager
 {
-    /// OpenWeatherMap api key
+    /**
+     * OpenWeatherMap api key
+     */
     private static final String OPEN_WEATHER_MAP_API_KEY = "ea57dfd61e2a2140837dcef81165fb74";
+
 
     /**
      * Make a url request using JSON body type
@@ -63,7 +79,7 @@ public class WeatherManager
             return ip.get("ip").toString();
         } catch (IOException e)
         {
-            System.out.println("Unable to get ip");
+            System.err.println("Unable to get ip");
         }
         return null;
     }
@@ -73,11 +89,12 @@ public class WeatherManager
         try
         {
             JSONObject res = request("https://ipapi.co/" + ip + "/json/");
+            System.out.println("Location for " + ip + " " + res.get("city") + " " + res.get("country"));
             return new Pair<>(res.get("latitude").toString(), res.get("longitude").toString());
 
         } catch (IOException e)
         {
-            System.out.println("Unable to get location");
+            System.err.println("Unable to get location");
         }
         return null;
 
@@ -97,6 +114,15 @@ public class WeatherManager
         return (float) clouds.get("1h");
     }
 
+    public static Color buildCloudColor(int cloud)
+    {
+        return Color.rgb(
+                (int) (cloud * 1.39),//RED
+                (int) (cloud * 0.88 + 51), // GREEN
+                (int) (209 - cloud * 0.7)// BLUE
+        );
+    }
+
     /**
      * Get a weather report at the current location
      *
@@ -105,8 +131,11 @@ public class WeatherManager
     public static WeatherReport getWeatherReport()
     {
         String ip = getIP();
+        if (ip == null)
+            return null;
         Pair<String, String> coord = getLocation(ip);
-        assert coord != null;
+        if (coord == null)
+            return null;
         try
         {
             JSONObject weather = getWeather(coord.getValue(), coord.getKey());
@@ -117,13 +146,35 @@ public class WeatherManager
         }
     }
 
-    public static void setTimer()
+    public static void setTimer(Scene scene)
     {
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask()
+        {
             @Override
-            public void run() {
-                System.out.println(WeatherManager.getWeatherReport());
+            public void run()
+            {
+                WeatherReport weather = WeatherManager.getWeatherReport();
+
+                System.out.println(weather);
+                if (weather == null)
+                {
+                    System.err.println("Unable to get weather");
+                    return;
+                }
+                
+                Color color = buildCloudColor(weather.clouds()); //TODO: User color for UI
+
+                CodeArea textEditor = (CodeArea) scene.lookup("#textEditor");
+                TreeView<NodeClass> projectTree = (TreeView<NodeClass>) scene.lookup("#projectTree");
+                TextArea console = (TextArea) scene.lookup("#consoleResult");
+
+
+                textEditor.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                projectTree.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                console.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+
+
             }
         }, 0, 300000);
 

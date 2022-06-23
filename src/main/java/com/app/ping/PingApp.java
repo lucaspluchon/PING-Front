@@ -27,7 +27,10 @@ public class PingApp extends Application {
         stage.setTitle("Project Premier Gaou");
         stage.setScene(scene);
         stage.show();
-        WeatherManager.setTimer();
+
+
+        WeatherManager.setTimer(scene);
+
         stage.setOnCloseRequest(event ->
         {
             Platform.exit();
