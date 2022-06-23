@@ -3,6 +3,7 @@ package com.app.ping;
 import com.app.ping.controller.CodeExecution;
 import com.app.ping.controller.Menu;
 import com.app.ping.controller.TextIde;
+import com.app.ping.weather.WeatherManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
