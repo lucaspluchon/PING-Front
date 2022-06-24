@@ -123,6 +123,19 @@ public class WeatherManager
         );
     }
 
+    public static Color buildRainColor(int rain)
+    {
+        if (rain == 0)
+        {
+            return Color.rgb(252, 255, 0);
+        }
+        return Color.rgb(
+                (int) (0),//RED
+                (int) (220 - (rain * 2.2)), // GREEN
+                (int) (255)// BLUE
+        );
+    }
+
     /**
      * Get a weather report at the current location
      *
@@ -139,7 +152,10 @@ public class WeatherManager
         try
         {
             JSONObject weather = getWeather(coord.getValue(), coord.getKey());
-            return new WeatherReport(getCloud(weather), getRain(weather));
+            int rain = (int) ((getRain(weather) / 5) * 100);
+            if (rain > 100)
+                rain = 100;
+            return new WeatherReport(getCloud(weather), rain);
         } catch (IOException e)
         {
             return null;
@@ -162,17 +178,18 @@ public class WeatherManager
                     System.err.println("Unable to get weather");
                     return;
                 }
-                
-                Color color = buildCloudColor(weather.clouds()); //TODO: User color for UI
+
+                Color cloudColor = buildCloudColor(weather.clouds()); // Cloud color (background)
+                Color rainColor = buildRainColor(weather.rain()); // Rain color (text foreground)
 
                 CodeArea textEditor = (CodeArea) scene.lookup("#textEditor");
                 TreeView<NodeClass> projectTree = (TreeView<NodeClass>) scene.lookup("#projectTree");
                 TextArea console = (TextArea) scene.lookup("#consoleResult");
 
 
-                textEditor.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                projectTree.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                console.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                textEditor.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
+                projectTree.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
+                console.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
 
             }
