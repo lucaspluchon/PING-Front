@@ -106,20 +106,28 @@ public class WeatherManager
         return (int) clouds.get("all");
     }
 
-    public static float getRain(JSONObject data)
+    public static double getRain(JSONObject data)
     {
         if (!data.keySet().contains("rain"))
             return 0;
         JSONObject clouds = (JSONObject) data.get("rain");
-        return (float) clouds.get("1h");
+        return (double) clouds.get("1h");
     }
 
     public static Color buildCloudColor(int cloud)
     {
+        int beginRed = 117;
+        int beginGreen = 170;
+        int beginBlue = 255;
+
+        int endRed = 130;
+        int endGreen = 130;
+        int endBlue = 130;
+
         return Color.rgb(
-                (int) (cloud * 1.39),//RED
-                (int) (cloud * 0.88 + 51), // GREEN
-                (int) (209 - cloud * 0.7)// BLUE
+                (int) (beginRed + ((int) (cloud * (endRed - beginRed) / 100))),//RED
+                (int) (beginGreen + ((int) (cloud * (endGreen - beginGreen) / 100))), // GREEN
+                (int) (beginBlue + ((int) (cloud * (endBlue - beginBlue) / 100)))// BLUE
         );
     }
 
@@ -127,12 +135,12 @@ public class WeatherManager
     {
         if (rain == 0)
         {
-            return Color.rgb(252, 255, 0);
+            return Color.rgb(252, 211, 76);
         }
         return Color.rgb(
-                (int) (0),//RED
+                0,//RED
                 (int) (220 - (rain * 2.2)), // GREEN
-                (int) (255)// BLUE
+                255// BLUE
         );
     }
 
@@ -179,7 +187,7 @@ public class WeatherManager
                     return;
                 }
 
-                Color cloudColor = buildCloudColor(weather.clouds()); // Cloud color (background)
+                Color cloudColor = buildCloudColor(50); // Cloud color (background)
                 Color rainColor = buildRainColor(weather.rain()); // Rain color (text foreground)
 
                 CodeArea textEditor = (CodeArea) scene.lookup("#textEditor");
@@ -189,7 +197,7 @@ public class WeatherManager
 
                 textEditor.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
                 projectTree.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
-                console.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
+                //console.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
 
             }
