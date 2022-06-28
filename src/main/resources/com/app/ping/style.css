@@ -1,0 +1,78 @@
+@font-face
+{
+    font-family: "Comic Sans MS";
+    src: url("comicsansms.ttf");
+}
+
+
+.alert
+{
+    -fx-font-family: 'Comic Sans MS';
+    -fx-background-color: '#75aaff';
+}
+
+.context-menu
+{
+    -fx-font-family: 'Comic Sans MS';
+    -fx-background-color: '#75aaff';
+    -fx-text-fill: white;
+}
+
+.menu-item .label
+{
+    -fx-text-fill: white !important;
+}
+
+
+.tree-view
+{
+    -fx-font-family: 'Comic Sans MS';
+    -fx-control-inner-background: '#75aaff';
+    -fx-border-color: '#000000';
+    -fx-border-width: 3px;
+    -fx-text-fill: white !important;
+}
+
+.tree-cell
+{
+    -fx-font-family: 'Comic Sans MS';
+    -fx-text-fill: white !important;
+}
+
+.code-area
+{
+    -fx-background-color: '#75aaff';
+    -fx-border-color: '#000000';
+    -fx-border-width: 3px;
+}
+
+.code-area .text
+{
+    -fx-font-family: 'Comic Sans MS';
+    -fx-fill: white !important;
+}
+
+.text-area
+{
+    -fx-border-color: '#000000';
+    -fx-border-width: 3px;
+    -fx-control-inner-background: '#75aaff';
+    -fx-background-color: '#75aaff';
+    -fx-text-fill: '#fcd34c' !important;
+}
+
+.text-area .content:focused
+{
+    -fx-focus-color: transparent;
+}
+
+.text-area .content
+{
+    -fx-font-family: 'Comic Sans MS';
+
+}
+
+.lineno
+{
+    -fx-background-color: '#000000';
+}

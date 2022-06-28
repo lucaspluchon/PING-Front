@@ -27,16 +27,21 @@ public class TextIde
         }
     }
 
+    public static void setText(CodeArea textEditor, String content)
+    {
+        textEditor.deleteText(0,textEditor.getLength());
+        textEditor.appendText(content);
+    }
+
     public static void readFile(CodeArea textEditor, File file) throws IOException
     {
         if (PingApp.actualPath == null || !PingApp.actualPath.toAbsolutePath().toString().equals(file.toPath().toAbsolutePath().toString()))
         {
+            textEditor.setEditable(true);
             saveFile(textEditor);
             PingApp.actualPath = file.toPath();
             String content = Files.readString(file.toPath());
-            if (textEditor.getLength() > 0)
-             textEditor.deleteText(0,textEditor.getLength() - 1);
-            textEditor.appendText(content);
+            setText(textEditor, content);
         }
     }
 

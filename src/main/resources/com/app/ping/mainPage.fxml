@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.fxmisc.richtext.CodeArea?>
 
-<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.ping.Controller">
+<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.ping.Controller">
    <top>
       <TextArea fx:id="consoleResult" editable="false" prefHeight="76.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <font>
@@ -45,6 +45,6 @@
       </BorderPane>
    </right>
    <center>
-      <CodeArea fx:id="textEditor" autoHeight="true" lineHighlighterOn="true" onKeyReleased="#updateTextIde" BorderPane.alignment="CENTER" />
+      <CodeArea fx:id="textEditor" autoHeight="true" onKeyReleased="#updateTextIde" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

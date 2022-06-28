@@ -4,6 +4,7 @@ import com.app.ping.controller.CodeExecution;
 import com.app.ping.controller.Menu;
 import com.app.ping.controller.TextIde;
 import javafx.concurrent.Task;
+import com.app.ping.weather.WeatherManager;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +16,7 @@ import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
 
+import java.io.Console;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collection;
@@ -66,6 +68,7 @@ public class Controller {
 
     public void initialize()
     {
+        WeatherManager.setTimer(textEditor, consoleResult, projectTree, contextMenu);
         executor = Executors.newSingleThreadExecutor();
         Subscription cleanupWhenDone = textEditor.multiPlainChanges()
                 .successionEnds(Duration.ofMillis(500))
@@ -85,8 +88,9 @@ public class Controller {
     }
 
     @FXML protected void updateTextIde() throws IOException {
-        textEditor.setParagraphGraphicFactory(LineNumberFactory.get(textEditor));
-        TextIde.update(textEditor); }
+        TextIde.update(textEditor);
+    }
+
     @FXML protected void showMenu() { Menu.show(contextMenu, menuButton); }
     @FXML protected void openFile() throws IOException { Menu.openFile(menuButton, textEditor, projectTree); }
     @FXML protected void openFolder() throws IOException { Menu.openFolder(menuButton, projectTree, textEditor); }

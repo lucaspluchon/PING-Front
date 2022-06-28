@@ -11,21 +11,28 @@ import org.fxmisc.richtext.CodeArea;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Tree {
+
+    public static ArrayList<TreeItem<NodeClass>> listItem = new ArrayList<>();
     public static void initFile(TreeView<NodeClass> tree, Path file)
     {
-        tree.setRoot(new TreeItem<>(new NodeClass(NodeType.FOLDER, file)));
+        TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FILE, file));
+        tree.setRoot(elm);
+        listItem.add(elm);
     }
 
     public static void initFolder(TreeView<NodeClass> tree, File folder, CodeArea textIde)
     {
-        tree.setRoot(new TreeItem<>(new NodeClass(NodeType.FOLDER, folder.toPath())));
+        TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, folder.toPath()));
+        tree.setRoot(elm);
+        listItem.add(elm);
 
         tree.setOnMouseClicked(mouseEvent -> {
             TreeItem<NodeClass> node = tree.getSelectionModel().getSelectedItem();
-            if (node.getValue().type == NodeType.FILE)
+            if (node != null && node.getValue().type == NodeType.FILE)
             {
                 try
                 {
@@ -46,17 +53,17 @@ public class Tree {
             if (file.isDirectory())
             {
                 int index = root.getChildren().size();
-                root.getChildren().add(new TreeItem<>(new NodeClass(NodeType.FOLDER, file.toPath())));
+                TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, file.toPath()));
+                root.getChildren().add(elm);
+                listItem.add(elm);
                 populateProject(root.getChildren().get(index), file);
             }
             else
             {
-                TreeItem<NodeClass> node = new TreeItem<>(new NodeClass(NodeType.FILE, file.toPath()));
-                root.getChildren().add(node);
+                TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, file.toPath()));
+                listItem.add(elm);
+                root.getChildren().add(elm);
             }
         }
     }
-
-
-
 }

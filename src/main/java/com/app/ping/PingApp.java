@@ -35,8 +35,6 @@ public class PingApp extends Application {
         stage.show();
 
 
-        WeatherManager.setTimer(scene);
-
         stage.setOnCloseRequest(event ->
         {
             Platform.exit();

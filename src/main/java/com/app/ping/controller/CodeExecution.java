@@ -1,6 +1,7 @@
 package com.app.ping.controller;
 
 import com.app.ping.PingApp;
+import com.app.ping.weather.WeatherManager;
 import javafx.animation.RotateTransition;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -27,6 +28,11 @@ public class CodeExecution
 
     public static void execute(TextArea consoleResult, CodeArea textEditor, BorderPane window) throws IOException, InterruptedException
     {
+        if (PingApp.actualPath == null)
+        {
+            Dialog.error("Premier gaou Error", "Cannot run this file", "No file opened");
+            return;
+        }
         TextIde.saveFile(textEditor);
         String[] cmd = {"swipl", "-s", PingApp.actualPath.toAbsolutePath().toString(), "-t" ,"halt.", "-q"};
         ProcessBuilder pb = new ProcessBuilder(cmd);
@@ -38,12 +44,12 @@ public class CodeExecution
 
         if (!hasError(stderr))
         {
-            consoleResult.setStyle("");
+            consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'; -fx-text-fill: '%s'", WeatherManager.backColor, WeatherManager.backColor, WeatherManager.textColor));
             consoleResult.setText(stdout);
         }
         else
         {
-            consoleResult.setStyle("-fx-text-fill: red ;");
+            consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'; -fx-text-fill: '%s'", WeatherManager.backColor, WeatherManager.backColor, "red"));
             showError(window, countError(stderr, PingApp.rootPath));
             consoleResult.setText(stderr);
         }

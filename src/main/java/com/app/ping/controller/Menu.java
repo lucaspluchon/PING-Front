@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class Menu
 
     public static void openFile(Button menuButton, CodeArea textEditor, TreeView<NodeClass> tree) throws IOException {
         File file = fileChooser.showOpenDialog(menuButton.getScene().getWindow());
+        textEditor.setParagraphGraphicFactory(LineNumberFactory.get(textEditor));
         if (file != null)
         {
             PingApp.rootPath = file.toPath();
@@ -44,11 +46,14 @@ public class Menu
     public static void openFolder(Button menuButton, TreeView<NodeClass> tree, CodeArea textIde)
     {
         File file = directoryChooser.showDialog(menuButton.getScene().getWindow());
+        textIde.setParagraphGraphicFactory(LineNumberFactory.get(textIde));
         if (file != null)
         {
             PingApp.rootPath = file.toPath();
             PingApp.actualPath = null;
             Tree.initFolder(tree, file, textIde);
+            TextIde.setText(textIde, "");
+            textIde.setEditable(false);
         }
     }
 }

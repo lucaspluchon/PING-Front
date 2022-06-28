@@ -10,9 +10,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.app.ping.NodeClass;
+import com.app.ping.controller.Tree;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.Background;
@@ -31,6 +34,8 @@ public class WeatherManager
      * OpenWeatherMap api key
      */
     private static final String OPEN_WEATHER_MAP_API_KEY = "ea57dfd61e2a2140837dcef81165fb74";
+    public static String backColor;
+    public static String textColor;
 
 
     /**
@@ -170,7 +175,17 @@ public class WeatherManager
         }
     }
 
-    public static void setTimer(Scene scene)
+    public static String toHex(Color color)
+    {
+        return "#" + color.toString().substring(2,8);
+    }
+
+    public void setConsoleColor(Color textColor)
+    {
+
+    }
+
+    public static void setTimer(CodeArea textEditor, TextArea consoleResult, TreeView<NodeClass> projectTree, ContextMenu contextMenu)
     {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
@@ -187,18 +202,15 @@ public class WeatherManager
                     return;
                 }
 
-                Color cloudColor = buildCloudColor(50); // Cloud color (background)
+                Color cloudColor = buildCloudColor(weather.clouds()); // Cloud color (background)
                 Color rainColor = buildRainColor(weather.rain()); // Rain color (text foreground)
-
-                CodeArea textEditor = (CodeArea) scene.lookup("#textEditor");
-                TreeView<NodeClass> projectTree = (TreeView<NodeClass>) scene.lookup("#projectTree");
-                TextArea console = (TextArea) scene.lookup("#consoleResult");
-
+                backColor = toHex(cloudColor);
+                textColor = toHex(rainColor);
 
                 textEditor.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
-                projectTree.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
-                //console.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
-
+                consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'; -fx-text-fill: '%s'", backColor, backColor, textColor));
+                projectTree.setStyle(String.format("-fx-control-inner-background: '%s'", backColor));
+                contextMenu.setStyle(String.format("-fx-background-color: '%s';", backColor));
 
             }
         }, 0, 300000);
