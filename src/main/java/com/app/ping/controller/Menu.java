@@ -38,6 +38,7 @@ public class Menu
         if (file != null)
         {
             PingApp.rootPath = file.toPath();
+            PingApp.actualPath = file.toPath();
             TextIde.readFile(textEditor, file);
             Tree.initFile(tree, file.toPath());
         }
@@ -55,6 +56,30 @@ public class Menu
             TextIde.setText(textIde, "");
             textIde.setEditable(false);
         }
+    }
+
+    public static void createFile(CodeArea textEditor)
+    {
+        textEditor.setEditable(true);
+        textEditor.setParagraphGraphicFactory(LineNumberFactory.get(textEditor));
+    }
+
+    public static void saveFile(CodeArea textEditor, Button menuButton, TreeView<NodeClass> tree) throws IOException {
+        File file = directoryChooser.showDialog(menuButton.getScene().getWindow());
+        if (file == null)
+            return;
+
+        String name = Dialog.text("Choose a name", "Please enter a filename", "Filename");
+        if (name == null)
+            return;
+
+        File newFile = new File(file.getAbsolutePath() + "/" + name);
+        newFile.createNewFile();
+        PingApp.rootPath = newFile.toPath();
+        PingApp.actualPath = newFile.toPath();
+        Tree.initFile(tree, newFile.toPath());
+        TextIde.saveFile(textEditor);
+
     }
 }
 

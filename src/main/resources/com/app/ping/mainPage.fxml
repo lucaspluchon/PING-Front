@@ -24,9 +24,11 @@
                <contextMenu>
                   <ContextMenu fx:id="contextMenu">
                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#createFile" text="Create file" />
                         <MenuItem mnemonicParsing="false" onAction="#openFolder" text="Open project" />
                         <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open file" />
                       <MenuItem mnemonicParsing="false" onAction="#executeCode" text="Run this file" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save file as" />
                         <MenuItem mnemonicParsing="false" text="Settings" />
                     </items>
                   </ContextMenu>

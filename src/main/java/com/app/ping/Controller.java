@@ -40,7 +40,7 @@ public class Controller {
             "is", "current_predicate", "catch", "throw", "No",
             "fail", "not", "true", "Yes", "forall",
             "member", "concat_atom", "last", "append", "module", "use_module",
-            ":-"
+            ":-", "initialization", "main"
     };
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
@@ -50,20 +50,21 @@ public class Controller {
     private static final String SEMICOLON_PATTERN = "\\.";
     private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
     private static final String COMMENT_PATTERN = "%[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
-    //private static final String FUNCTION_PATTERN = "([^\"\\\\]|\\\\.)*(([^\"\\\\]|\\\\.)*)";
+    private static final String FUNCTION_PATTERN = "\\w+\\(.*\\)";
 
 
     private ExecutorService executor;
 
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    //+ "|(?<FUNCTION>" + FUNCTION_PATTERN + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
                     + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
                     + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
                     + "|(?<STRING>" + STRING_PATTERN + ")"
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
-                    //+ "|(?<FUNCTION>" + FUNCTION_PATTERN + ")"
+
     );
 
     public void initialize()
@@ -95,6 +96,9 @@ public class Controller {
     @FXML protected void openFile() throws IOException { Menu.openFile(menuButton, textEditor, projectTree); }
     @FXML protected void openFolder() throws IOException { Menu.openFolder(menuButton, projectTree, textEditor); }
     @FXML protected void executeCode() throws IOException, InterruptedException { CodeExecution.execute(consoleResult, textEditor, window); }
+    @FXML protected void createFile() throws IOException { Menu.createFile(textEditor); }
+    @FXML protected void saveFile() throws IOException { Menu.saveFile(textEditor, menuButton, projectTree); }
+
 
     private void applyHighlighting(StyleSpans<Collection<String>> highlighting) {
         textEditor.setStyleSpans(0, highlighting);
