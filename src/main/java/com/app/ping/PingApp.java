@@ -15,15 +15,14 @@ import javafx.stage.WindowEvent;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Timer;
-import java.util.regex.Pattern;
 
 public class PingApp extends Application {
-    public static Path rootPath = null;
-    public static Path actualPath = null;
+    public static File projectFolder = null;
+    public static CodeArea actualEditor = null;
+    public static File actualFile = null;
 
 
     @Override

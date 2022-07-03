@@ -4,7 +4,7 @@ module com.example.pingfront {
     requires org.fxmisc.richtext;
     requires json;
     requires reactfx;
-
+    requires com.kodedu.terminalfx;
 
     opens com.app.ping to javafx.fxml;
     exports com.app.ping;

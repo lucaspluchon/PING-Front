@@ -3,8 +3,11 @@ package com.app.ping.controller;
 import com.app.ping.Controller;
 import com.app.ping.PingApp;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,12 +20,42 @@ public class TextIde
 {
     private static long lastKeyPressed = 0;
 
-    public static void saveFile(CodeArea textEditor) throws IOException
+    public static Tab newFileTab(TabPane codeTab, File file)
     {
-        if (PingApp.actualPath != null)
+        Tab exist = null;
+        if (file != null)
         {
-            BufferedWriter file = new BufferedWriter(new FileWriter(PingApp.actualPath.toFile()));
-            file.write(textEditor.getText());
+            for (var tab : codeTab.getTabs())
+            {
+                if (((FileInfo) tab.getUserData()).file().toString().equals(file.toString()))
+                    exist = tab;
+            }
+        }
+
+
+        if (exist != null)
+            return exist;
+
+        String name = "Unamed file";
+        if (file != null)
+            name = file.getName();
+
+        CodeArea textEditor = new CodeArea();
+        textEditor.setParagraphGraphicFactory(LineNumberFactory.get(textEditor));
+        //SyntaxHighlighting highlighting = new SyntaxHighlighting(textEditor);
+
+        Tab newTab = new Tab(name, textEditor);
+        newTab.setUserData(new FileInfo(file, textEditor));
+        codeTab.getTabs().add(newTab);
+        return newTab;
+    }
+
+    public static void saveActualFile() throws IOException
+    {
+        if (PingApp.actualFile != null)
+        {
+            BufferedWriter file = new BufferedWriter(new FileWriter(PingApp.actualFile));
+            file.write(PingApp.actualEditor.getText());
             file.close();
         }
     }
@@ -35,25 +68,11 @@ public class TextIde
 
     public static void readFile(CodeArea textEditor, File file) throws IOException
     {
-        if (PingApp.actualPath == null || !PingApp.actualPath.toAbsolutePath().toString().equals(file.toPath().toAbsolutePath().toString()))
+        if (PingApp.actualFile == null || !PingApp.actualFile.getAbsolutePath().equals(file.getAbsolutePath()));
         {
-            textEditor.setEditable(true);
-            saveFile(textEditor);
-            PingApp.actualPath = file.toPath();
             String content = Files.readString(file.toPath());
             setText(textEditor, content);
         }
     }
-
-    public static void update(CodeArea textEditor) throws IOException
-    {
-        long actualTime = Instant.now().getEpochSecond();
-        if (actualTime - lastKeyPressed >= 2)
-        {
-            saveFile(textEditor);
-        }
-        lastKeyPressed = Instant.now().getEpochSecond();
-    }
-
 
 }

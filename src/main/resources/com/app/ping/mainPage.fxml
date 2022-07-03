@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
-<?import org.fxmisc.richtext.CodeArea?>
 
-<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.ping.Controller">
-   <top>
-      <TextArea fx:id="consoleResult" editable="false" prefHeight="76.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Comic Sans MS" size="13.0" />
-         </font></TextArea>
-   </top>
-   <right>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <top>
-            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#showMenu" prefHeight="26.0" prefWidth="204.0" text="Menu" BorderPane.alignment="CENTER">
-               <contextMenu>
-                  <ContextMenu fx:id="contextMenu">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#createFile" text="Create file" />
-                        <MenuItem mnemonicParsing="false" onAction="#openFolder" text="Open project" />
-                        <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open file" />
-                      <MenuItem mnemonicParsing="false" onAction="#executeCode" text="Run this file" />
-                        <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save file as" />
-                        <MenuItem mnemonicParsing="false" text="Settings" />
-                    </items>
-                  </ContextMenu>
-               </contextMenu>
-               <font>
-                  <Font name="Comic Sans MS" size="13.0" />
-               </font>
-            </Button>
-         </top>
-         <rotationAxis>
-            <Point3D y="1.0" />
-         </rotationAxis>
-         <center>
-            <TreeView fx:id="projectTree" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </center>
-      </BorderPane>
-   </right>
+<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.ping.Controller">
    <center>
-      <CodeArea fx:id="textEditor" autoHeight="true" onKeyReleased="#updateTextIde" BorderPane.alignment="CENTER" />
+      <SplitPane dividerPositions="0.13442211055276382" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <items>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <TabPane fx:id="resultTab" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                      <Tab fx:id="consoleResultTab" text="Result">
+                           <content>
+                              <TextArea id="menuButton" fx:id="consoleResult" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                           </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </center>
+               <right>
+                  <Button id="menuButton" fx:id="menuButton" maxHeight="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#showMenu" text="Menu" BorderPane.alignment="CENTER">
+                     <contextMenu>
+                        <ContextMenu fx:id="contextMenu">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#createFile" text="Create file" />
+                            <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open file" />
+                              <MenuItem mnemonicParsing="false" onAction="#openFolder" text="Open project" />
+                              <MenuItem mnemonicParsing="false" onAction="#executeCode" text="Run this file" />
+                              <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save this file" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </Button>
+               </right>
+            </BorderPane>
+            <SplitPane dividerPositions="0.9573578595317725" prefHeight="160.0" prefWidth="200.0">
+              <items>
+                  <TabPane fx:id="codeTab" onMouseClicked="#updateIde" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" />
+                  <TreeView fx:id="projectTree" prefHeight="200.0" prefWidth="200.0" />
+              </items>
+            </SplitPane>
+        </items>
+      </SplitPane>
    </center>
 </BorderPane>

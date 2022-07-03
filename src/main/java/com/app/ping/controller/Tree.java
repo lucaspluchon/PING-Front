@@ -3,9 +3,7 @@ package com.app.ping.controller;
 import com.app.ping.NodeClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
@@ -24,19 +22,25 @@ public class Tree {
         listItem.add(elm);
     }
 
-    public static void initFolder(TreeView<NodeClass> tree, File folder, CodeArea textIde)
+    public static void initFolder(TabPane codeTab, TreeView<NodeClass> tree, File folder)
     {
         TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, folder.toPath()));
         tree.setRoot(elm);
         listItem.add(elm);
 
         tree.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() != 2)
+                return;
             TreeItem<NodeClass> node = tree.getSelectionModel().getSelectedItem();
             if (node != null && node.getValue().type == NodeType.FILE)
             {
                 try
                 {
-                    TextIde.readFile(textIde, node.getValue().path.toFile());
+                    Tab tab = TextIde.newFileTab(codeTab, node.getValue().path.toFile());
+                    CodeArea textEditor = ((FileInfo) tab.getUserData()).textEditor();
+                    TextIde.readFile(textEditor, node.getValue().path.toFile());
+                    codeTab.getSelectionModel().select(tab);
+
                 }
                 catch (Exception ignored) {}
             }
@@ -44,6 +48,17 @@ public class Tree {
 
         tree.getRoot().setExpanded(true);
         populateProject(tree.getRoot(), folder);
+    }
+
+    private static boolean isCorrectFile(String name)
+    {
+        String[] authorizedExtension = {".pl", ".xml", ".md", ".gitignore"};
+        for (String ext : authorizedExtension)
+        {
+            if (name.contains(ext))
+                return true;
+        }
+        return false;
     }
 
     public static void populateProject(TreeItem<NodeClass> root, File folder)
@@ -60,9 +75,12 @@ public class Tree {
             }
             else
             {
-                TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, file.toPath()));
-                listItem.add(elm);
-                root.getChildren().add(elm);
+                if (isCorrectFile(file.getName()))
+                {
+                    TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FILE, file.toPath()));
+                    listItem.add(elm);
+                    root.getChildren().add(elm);
+                }
             }
         }
     }

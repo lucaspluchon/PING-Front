@@ -3,6 +3,8 @@ package com.app.ping.controller;
 import com.app.ping.PingApp;
 import com.app.ping.weather.WeatherManager;
 import javafx.animation.RotateTransition;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -26,21 +28,22 @@ public class CodeExecution
         return (stderr.split(path.toAbsolutePath().toString(), -1).length) - 1;
     }
 
-    public static void execute(TextArea consoleResult, CodeArea textEditor, BorderPane window) throws IOException, InterruptedException
+    public static void execute(TextArea consoleResult, TabPane codeTab, BorderPane window, Tab tab) throws IOException, InterruptedException
     {
-        if (PingApp.actualPath == null)
+        if (PingApp.actualFile == null)
         {
             Dialog.error("Premier gaou Error", "Cannot run this file", "No file opened");
             return;
         }
-        TextIde.saveFile(textEditor);
-        String[] cmd = {"swipl", "-s", PingApp.actualPath.toAbsolutePath().toString(), "-t" ,"halt.", "-q"};
+        TextIde.saveActualFile();
+        String[] cmd = {"swipl", "-s", PingApp.actualFile.getAbsolutePath(), "-t" ,"halt.", "-q"};
         ProcessBuilder pb = new ProcessBuilder(cmd);
-        pb.directory(PingApp.actualPath.toAbsolutePath().getParent().toFile());
+        pb.directory(PingApp.actualFile.getParentFile());
         Process process = pb.start();
         process.waitFor();
         String stdout = new String(process.getInputStream().readAllBytes());
         String stderr = new String(process.getErrorStream().readAllBytes());
+        codeTab.getSelectionModel().select(tab);
 
         if (!hasError(stderr))
         {
@@ -50,9 +53,11 @@ public class CodeExecution
         else
         {
             consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'; -fx-text-fill: '%s'", WeatherManager.backColor, WeatherManager.backColor, "red"));
-            showError(window, countError(stderr, PingApp.rootPath));
+            showError(window, countError(stderr, PingApp.actualFile.toPath()));
             consoleResult.setText(stderr);
         }
+
+
     }
 
     private static void showError(BorderPane window, int count)

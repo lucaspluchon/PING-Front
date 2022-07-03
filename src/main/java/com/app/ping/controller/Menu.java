@@ -2,7 +2,6 @@ package com.app.ping.controller;
 
 import com.app.ping.NodeClass;
 import com.app.ping.PingApp;
-import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
@@ -12,19 +11,24 @@ import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
-import static com.app.ping.Controller.*;
+import static com.app.ping.controller.TextIde.newFileTab;
 
 public class Menu
 {
     private static final FileChooser fileChooser = new FileChooser();
+
     private static final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     static
     {
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Prolog files", "*.pl"),
+                new FileChooser.ExtensionFilter("Dev files", "*.md", "*.xml", "*.gitignore"));
         fileChooser.setTitle("Open file");
     }
+
+
 
     public static void show(ContextMenu contextMenu, Button menuButton)
     {
@@ -32,38 +36,47 @@ public class Menu
         contextMenu.show(menuButton.getScene().getWindow(), position.getCenterX(), position.getCenterY());
     }
 
-    public static void openFile(Button menuButton, CodeArea textEditor, TreeView<NodeClass> tree) throws IOException {
+    public static void openFile(Button menuButton, TabPane codeTab) throws IOException {
         File file = fileChooser.showOpenDialog(menuButton.getScene().getWindow());
-        textEditor.setParagraphGraphicFactory(LineNumberFactory.get(textEditor));
         if (file != null)
         {
-            PingApp.rootPath = file.toPath();
+            Tab tab = newFileTab(codeTab, file);
+            CodeArea textEditor = ((FileInfo) tab.getUserData()).textEditor();
+            PingApp.actualFile = file;
+            PingApp.actualEditor = textEditor;
+            codeTab.getSelectionModel().select(tab);
             TextIde.readFile(textEditor, file);
-            Tree.initFile(tree, file.toPath());
         }
     }
 
-    public static void openFolder(Button menuButton, TreeView<NodeClass> tree, CodeArea textIde)
+    public static void openFolder(Button menuButton, TreeView<NodeClass> tree, TabPane codeTab)
     {
         File file = directoryChooser.showDialog(menuButton.getScene().getWindow());
-        textIde.setParagraphGraphicFactory(LineNumberFactory.get(textIde));
         if (file != null)
         {
-            PingApp.rootPath = file.toPath();
-            PingApp.actualPath = null;
-            Tree.initFolder(tree, file, textIde);
-            TextIde.setText(textIde, "");
-            textIde.setEditable(false);
+            PingApp.projectFolder = file;
+            PingApp.actualFile = null;
+            codeTab.getTabs().removeAll();
+            Tree.initFolder(codeTab, tree, file);
         }
     }
 
-    public static void createFile(CodeArea textEditor)
+    public static void createFile(TabPane codeTab)
     {
-        textEditor.setEditable(true);
-        textEditor.setParagraphGraphicFactory(LineNumberFactory.get(textEditor));
+       Tab tab = newFileTab(codeTab, null);
+       PingApp.actualEditor = ((FileInfo) tab.getUserData()).textEditor();
+       PingApp.actualFile = null;
+       codeTab.getSelectionModel().select(tab);
     }
 
-    public static void saveFile(CodeArea textEditor, Button menuButton, TreeView<NodeClass> tree) throws IOException {
+    public static void saveFile(Button menuButton, TabPane codeTab) throws IOException
+    {
+        if (PingApp.actualFile != null)
+        {
+            TextIde.saveActualFile();
+            return;
+        }
+
         File file = directoryChooser.showDialog(menuButton.getScene().getWindow());
         if (file == null)
             return;
@@ -74,11 +87,11 @@ public class Menu
 
         File newFile = new File(file.getAbsolutePath() + "/" + name);
         newFile.createNewFile();
-        PingApp.rootPath = newFile.toPath();
-        PingApp.actualPath = newFile.toPath();
-        Tree.initFile(tree, newFile.toPath());
-        TextIde.saveFile(textEditor);
-
+        PingApp.actualFile = newFile;
+        PingApp.actualEditor.setUserData(new FileInfo(newFile, PingApp.actualEditor));
+        TextIde.saveActualFile();
+        codeTab.getSelectionModel().getSelectedItem().setText(name);
+        codeTab.getSelectionModel().getSelectedItem().setUserData(new FileInfo(newFile, PingApp.actualEditor));
     }
 }
 
