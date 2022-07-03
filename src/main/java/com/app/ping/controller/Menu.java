@@ -38,7 +38,6 @@ public class Menu
         if (file != null)
         {
             PingApp.rootPath = file.toPath();
-            PingApp.actualPath = file.toPath();
             TextIde.readFile(textEditor, file);
             Tree.initFile(tree, file.toPath());
         }
