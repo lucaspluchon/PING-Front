@@ -1,0 +1,11 @@
+{
+  "menuButton": "मेन्यू",
+  "resultTab": "परिणाम",
+  "terminalTab": "टर्मिनल",
+  "createFile": "फ़ाइल बनाएँ",
+  "openFile": "खुली फाइल",
+  "openProject": "ओपन प्रोजेक्ट",
+  "runFile": "इस फ़ाइल को चलाएँ",
+  "saveFile": "इस फाइल को सेव करें",
+  "unnamedFile": "अनाम फ़ाइल"
+}

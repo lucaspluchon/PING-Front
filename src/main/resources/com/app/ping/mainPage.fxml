@@ -18,9 +18,9 @@
                <center>
                   <TabPane fx:id="resultTab" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                     <tabs>
-                      <Tab fx:id="consoleResultTab" text="Result">
+                      <Tab id="consoleResultTab" fx:id="consoleResultTab" text="Result">
                            <content>
-                              <TextArea id="menuButton" fx:id="consoleResult" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea fx:id="consoleResult" editable="false" prefHeight="200.0" prefWidth="200.0" />
                            </content>
                       </Tab>
                     </tabs>
@@ -36,6 +36,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#openFolder" text="Open project" />
                               <MenuItem mnemonicParsing="false" onAction="#executeCode" text="Run this file" />
                               <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save this file" />
+                              <MenuItem fx:id="settingsButtton" mnemonicParsing="false" onAction="#openSettings" text="Settings" />
                           </items>
                         </ContextMenu>
                      </contextMenu>
@@ -45,7 +46,16 @@
             <SplitPane dividerPositions="0.9573578595317725" prefHeight="160.0" prefWidth="200.0">
               <items>
                   <TabPane fx:id="codeTab" onMouseClicked="#updateIde" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" />
-                  <TreeView fx:id="projectTree" prefHeight="200.0" prefWidth="200.0" />
+                  <TreeView fx:id="projectTree" prefHeight="200.0" prefWidth="200.0">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#treeCreateFile" text="Create file" />
+                              <MenuItem mnemonicParsing="false" onAction="#treeRenameFile" text="Rename file" />
+                              <MenuItem mnemonicParsing="false" onAction="#treeDeleteFile" text="Delete file" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></TreeView>
               </items>
             </SplitPane>
         </items>

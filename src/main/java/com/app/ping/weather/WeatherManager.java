@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.app.ping.NodeClass;
+import com.app.ping.PingApp;
 import com.app.ping.controller.Tree;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -27,6 +29,8 @@ import org.fxmisc.richtext.CodeArea;
 import org.json.JSONObject;
 import com.app.ping.Controller;
 
+import static com.app.ping.Controller.*;
+
 
 public class WeatherManager
 {
@@ -36,6 +40,33 @@ public class WeatherManager
     private static final String OPEN_WEATHER_MAP_API_KEY = "ea57dfd61e2a2140837dcef81165fb74";
     public static String backColor;
     public static String textColor;
+
+    public static Timer timer;
+
+    public static String apiLink;
+
+    public static String getWeatherConfig()
+    {
+        Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
+        JSONObject config;
+        try
+        {
+            config = new JSONObject(path);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+
+        try
+        {
+            return config.getString("city");
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
 
 
     /**
@@ -66,14 +97,12 @@ public class WeatherManager
     /**
      * Make a request to get weather at a given location using OpenWeatherMap API
      *
-     * @param lon longitude for the coord
-     * @param lat latitude for the coord
      * @return the JSON body representing the weather condition
      * @throws IOException if the request fail
      */
-    static public JSONObject getWeather(String lon, String lat) throws IOException
+    static public JSONObject getWeather() throws IOException
     {
-        return request("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + OPEN_WEATHER_MAP_API_KEY);
+        return request(apiLink);
     }
 
     static public String getIP()
@@ -156,15 +185,9 @@ public class WeatherManager
      */
     public static WeatherReport getWeatherReport()
     {
-        String ip = getIP();
-        if (ip == null)
-            return null;
-        Pair<String, String> coord = getLocation(ip);
-        if (coord == null)
-            return null;
         try
         {
-            JSONObject weather = getWeather(coord.getValue(), coord.getKey());
+            JSONObject weather = getWeather();
             int rain = (int) ((getRain(weather) / 5) * 100);
             if (rain > 100)
                 rain = 100;
@@ -180,38 +203,54 @@ public class WeatherManager
         return "#" + color.toString().substring(2,8);
     }
 
-    public void setConsoleColor(Color textColor)
-    {
 
+    public static void adaptWeather()
+    {
+        WeatherReport weather = WeatherManager.getWeatherReport();
+
+        System.out.println(weather);
+        if (weather == null)
+        {
+            System.err.println("Unable to get weather");
+            return;
+        }
+
+        Color cloudColor = buildCloudColor(weather.clouds()); // Cloud color (background)
+        Color rainColor = buildRainColor(weather.rain()); // Rain color (text foreground)
+        backColor = toHex(cloudColor);
+        textColor = toHex(rainColor);
+
+        //textEditor.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
+        _consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'; -fx-text-fill: '%s'", backColor, backColor, textColor));
+        _projectTree.setStyle(String.format("-fx-control-inner-background: '%s'", backColor));
+        _contextMenu.setStyle(String.format("-fx-background-color: '%s';", backColor));
     }
 
-    public static void setTimer(CodeArea textEditor, TextArea consoleResult, TreeView<NodeClass> projectTree, ContextMenu contextMenu)
+    public static void startTimer()
     {
+        if (PingApp.city == null)
+        {
+            String ip = getIP();
+            if (ip == null)
+                return;
+            Pair<String, String> coord = getLocation(ip);
+            if (coord == null)
+                return;
+            apiLink = "https://api.openweathermap.org/data/2.5/weather?lat=" + coord.getValue() + "&lon=" + coord.getKey() + "&appid=" + OPEN_WEATHER_MAP_API_KEY;
+        }
+        else
+        {
+            apiLink = "https://api.openweathermap.org/data/2.5/weather?q=" + PingApp.city + "&appid=" + OPEN_WEATHER_MAP_API_KEY;
+        }
+
+
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
         {
             @Override
             public void run()
             {
-                WeatherReport weather = WeatherManager.getWeatherReport();
-
-                System.out.println(weather);
-                if (weather == null)
-                {
-                    System.err.println("Unable to get weather");
-                    return;
-                }
-
-                Color cloudColor = buildCloudColor(weather.clouds()); // Cloud color (background)
-                Color rainColor = buildRainColor(weather.rain()); // Rain color (text foreground)
-                backColor = toHex(cloudColor);
-                textColor = toHex(rainColor);
-
-                textEditor.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
-                consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'; -fx-text-fill: '%s'", backColor, backColor, textColor));
-                projectTree.setStyle(String.format("-fx-control-inner-background: '%s'", backColor));
-                contextMenu.setStyle(String.format("-fx-background-color: '%s';", backColor));
-
+                adaptWeather();
             }
         }, 0, 300000);
 

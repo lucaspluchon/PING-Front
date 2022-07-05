@@ -27,6 +27,8 @@ public class TextIde
         {
             for (var tab : codeTab.getTabs())
             {
+                if (((FileInfo) tab.getUserData()).file() == null)
+                    continue;
                 if (((FileInfo) tab.getUserData()).file().toString().equals(file.toString()))
                     exist = tab;
             }
@@ -36,7 +38,7 @@ public class TextIde
         if (exist != null)
             return exist;
 
-        String name = "Unamed file";
+        String name = LanguageSystem.unamedFile;
         if (file != null)
             name = file.getName();
 

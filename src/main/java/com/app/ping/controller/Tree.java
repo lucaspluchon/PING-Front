@@ -1,5 +1,6 @@
 package com.app.ping.controller;
 
+import com.app.ping.Controller;
 import com.app.ping.NodeClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,9 +9,14 @@ import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
+
+import static com.app.ping.Controller._codeTab;
+import static com.app.ping.Controller._projectTree;
 
 public class Tree {
 
@@ -82,6 +88,64 @@ public class Tree {
                     root.getChildren().add(elm);
                 }
             }
+        }
+    }
+
+    public static void createFile() throws IOException {
+        TreeItem<NodeClass> item = _projectTree.getSelectionModel().getSelectedItem();
+        if (item != null)
+        {
+            String name = Dialog.text("Choose a name", "Please enter a filename", "Filename");
+            String path;
+            if (item.getValue().type == NodeType.FILE)
+                path = item.getValue().path.getParent().toAbsolutePath()+ "/" + name;
+            else
+                path = item.getValue().path.toAbsolutePath() + "/" + name;
+
+            File newFile = new File(path);
+            newFile.createNewFile();
+
+            TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FILE, newFile.toPath()));
+
+            if (item.getValue().type == NodeType.FILE)
+                item.getParent().getChildren().add(elm);
+            else
+                item.getChildren().add(elm);
+        }
+    }
+    public static void renameFile() throws IOException {
+        TreeItem<NodeClass> item = _projectTree.getSelectionModel().getSelectedItem();
+        if (item != null)
+        {
+            String name = Dialog.text("Choose a name", "Please enter a filename", "Filename");
+            Path file = item.getValue().path;
+
+            Path newPath = Files.move(file, file.resolveSibling(name));
+
+            NodeClass newNode = new NodeClass(item.getValue().type, newPath);
+
+
+            for (Tab tab : _codeTab.getTabs())
+            {
+                if (Objects.equals(tab.getText(), item.getValue().path.getFileName().toString()))
+                    tab.setText(name);
+            }
+
+            item.setValue(newNode);
+        }
+    }
+
+    public static void deleteFile()
+    {
+        TreeItem<NodeClass> item = _projectTree.getSelectionModel().getSelectedItem();
+        if (item != null)
+        {
+            
+            _codeTab.getTabs().removeIf(tab -> Objects.equals(tab.getText(), item.getValue().path.getFileName().toString()));
+
+            item.getValue().path.toFile().delete();
+            item.getParent().getChildren().remove(item);
+
         }
     }
 }

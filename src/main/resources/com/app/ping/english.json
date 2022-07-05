@@ -1,0 +1,11 @@
+{
+  "menuButton": "Menu",
+  "resultTab": "Result",
+  "terminalTab": "Terminal",
+  "createFile": "Create file",
+  "openFile": "Open file",
+  "openProject": "Open project",
+  "runFile": "Run this file",
+  "saveFile": "Save this file",
+  "unnamedFile": "Unnamed file"
+}

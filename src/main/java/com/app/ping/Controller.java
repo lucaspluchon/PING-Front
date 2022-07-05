@@ -1,19 +1,19 @@
 package com.app.ping;
 
-import com.app.ping.controller.CodeExecution;
-import com.app.ping.controller.FileInfo;
+import com.app.ping.controller.*;
 import com.app.ping.controller.Menu;
-import com.app.ping.controller.TextIde;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import com.kodedu.terminalfx.config.TerminalConfig;
 import javafx.concurrent.Task;
 import com.app.ping.weather.WeatherManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
 
@@ -23,18 +23,31 @@ import java.io.IOException;
 public class Controller {
     @FXML public Button menuButton;
     @FXML public ContextMenu contextMenu;
+    @FXML public static ContextMenu _contextMenu;
     @FXML public TextArea consoleResult;
+    public static TextArea _consoleResult;
     @FXML public Tab consoleResultTab;
     @FXML public BorderPane window;
     @FXML public TreeView<NodeClass> projectTree;
+    public static TreeView<NodeClass> _projectTree;
+
+
+    @FXML public MenuItem settingsButton;
 
     @FXML public TabPane codeTab;
+    public static TabPane _codeTab;
 
     @FXML public TabPane resultTab;
 
-    public void initialize()
+    public void initialize() throws IOException
+
     {
-        //WeatherManager.setTimer(textEditor, consoleResult, projectTree, contextMenu);
+        _contextMenu = contextMenu;
+        _projectTree = projectTree;
+        _consoleResult = consoleResult;
+        _codeTab = codeTab;
+
+        //WeatherManager.startTimer();
 
         TerminalConfig darkConfig = new TerminalConfig();
         darkConfig.setBackgroundColor(Color.rgb(16, 16, 16));
@@ -46,9 +59,9 @@ public class Controller {
         TerminalTab terminal = terminalBuilder.newTerminal();
         terminal.setText("Terminal");
 
-
         resultTab.getTabs().add(terminal);
         resultTab.getSelectionModel().select(terminal);
+
     }
 
     @FXML protected void showMenu() { Menu.show(contextMenu, menuButton); }
@@ -69,12 +82,41 @@ public class Controller {
     }
 
     @FXML protected void updateIde() throws IOException {
-        TextIde.saveActualFile();
-        FileInfo info = (FileInfo) codeTab.getSelectionModel().getSelectedItem().getUserData();
-        PingApp.actualFile = info.file();
-        PingApp.actualEditor = info.textEditor();
+        if (codeTab.getSelectionModel().getSelectedItem() != null)
+        {
+            TextIde.saveActualFile();
+            FileInfo info = (FileInfo) codeTab.getSelectionModel().getSelectedItem().getUserData();
+            PingApp.actualFile = info.file();
+            PingApp.actualEditor = info.textEditor();
+        }
     }
 
+    @FXML protected void openSettings()
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader(PingApp.class.getResource("settings.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 510, 209);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Settings premier gaou");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML protected void treeCreateFile() throws IOException {
+        Tree.createFile();
+    }
+
+    @FXML protected void treeDeleteFile() throws IOException {
+        Tree.deleteFile();
+    }
+
+    @FXML protected void treeRenameFile() throws IOException {
+        Tree.renameFile();
+    }
 
 
 
