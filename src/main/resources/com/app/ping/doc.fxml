@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" text="--- Premier Gaou documentation ---&#10;&#10;-- Window description --&#10;- Main tab : It's the IDE, containing all the code file&#10;- Upper tab : Contains result and terminal&#10;- Right tab : Contains the tree view when you open a project&#10;&#10;-- Main tab description --&#10;- Bottoms tabs : click on it to select already opened files&#10;- Center tab : it's the area where you can edit your file with autocompletation and syntaxic coloration&#10;&#10;-- Tree view description --&#10;- File/directory name : you will see a file/directory tree with a hierarchy you can click on it to open any file on the project&#10;- Create file (right click) : Create a file in the specified directory of project&#10;- Rename file (right click) : Rename the selected file&#10;- Delete file (right click) : Delete the selected file&#10;&#10;-- Buttons description -- &#10;- Menu : open the menu description&#10;- Result : show the result of the compilation of a prolog file&#10;- Terminal : open a terminal&#10;&#10;-- Menu description --&#10;- Create file : creates a file without name and without saving it&#10;- Open file : open a file in the editor tab&#10;- Open project : open a directory and all the sub-directories as a project (Only XML, PL, MD files)&#10;- Run this file : run the file in the current tab and show the result in the result tab&#10;- Save this file : save a file, if the file has know you can choose a name&#10;- Settings : open the settings window&#10;&#10;-- Settings description --&#10;- Language : you change change the language of the IDE&#10;- Location (city) : You can select a city. The IDE color will changed in function of the specified location weather&#10;- Done : Quit and save the settings" wrapText="true" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

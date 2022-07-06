@@ -37,6 +37,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#executeCode" text="Run this file" />
                               <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save this file" />
                               <MenuItem fx:id="settingsButtton" mnemonicParsing="false" onAction="#openSettings" text="Settings" />
+                              <MenuItem fx:id="documentation" mnemonicParsing="false" onAction="#openDoc" text="Documentation" />
                           </items>
                         </ContextMenu>
                      </contextMenu>

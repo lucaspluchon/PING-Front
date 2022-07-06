@@ -106,6 +106,22 @@ public class Controller {
         stage.show();
     }
 
+    @FXML protected void openDoc()
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader(PingApp.class.getResource("doc.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 640, 480);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Settings premier gaou");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     @FXML protected void treeCreateFile() throws IOException {
         Tree.createFile();
     }

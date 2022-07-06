@@ -65,7 +65,7 @@ public class CodeExecution
             consoleResult.setText(stderr);
         }
     }
-    
+
     private static final Pattern p = Pattern.compile("^(ERROR: [\\w/.-]+:)(\\d+)(.*)");
     private static void showError(BorderPane window, int count, CodeArea textEditor, String line)
     {
