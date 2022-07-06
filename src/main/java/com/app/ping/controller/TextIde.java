@@ -43,8 +43,9 @@ public class TextIde
             name = file.getName();
 
         CodeArea textEditor = new CodeArea();
+        new SyntaxHighlighting(textEditor);
+        new AutoComplete(textEditor);
         textEditor.setParagraphGraphicFactory(LineNumberFactory.get(textEditor));
-        //SyntaxHighlighting highlighting = new SyntaxHighlighting(textEditor);
 
         Tab newTab = new Tab(name, textEditor);
         newTab.setUserData(new FileInfo(file, textEditor));
@@ -76,5 +77,7 @@ public class TextIde
             setText(textEditor, content);
         }
     }
+
+
 
 }

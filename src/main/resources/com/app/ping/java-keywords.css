@@ -8,7 +8,6 @@
 }
 .paren {
     -fx-fill: firebrick;
-    -fx-font-weight: bold;
 }
 .bracket {
     -fx-fill: darkgreen;
@@ -27,5 +26,5 @@
 }
 
 .function {
-    -fx-fill: yellow;
+    -fx-fill: firebrick;
 }

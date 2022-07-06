@@ -33,21 +33,20 @@ public class SyntaxHighlighting {
     private static final String SEMICOLON_PATTERN = "\\.";
     private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
     private static final String COMMENT_PATTERN = "%[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
-    private static final String FUNCTION_PATTERN = "\\w+\\(.*\\)";
+    private static final String FUNCTION_PATTERN = "\\w+\\(";
 
 
     private ExecutorService executor;
 
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
-                    //+ "|(?<FUNCTION>" + FUNCTION_PATTERN + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
                     + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
                     + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
                     + "|(?<STRING>" + STRING_PATTERN + ")"
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
-
+                    + "|(?<FUNCTION>" + FUNCTION_PATTERN + ")"
     );
 
 
@@ -55,7 +54,7 @@ public class SyntaxHighlighting {
     public SyntaxHighlighting(CodeArea textEditor)
     {
         this.textEditor = textEditor;
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        this.executor = Executors.newSingleThreadExecutor();
         Subscription cleanupWhenDone = textEditor.multiPlainChanges()
                 .successionEnds(Duration.ofMillis(500))
                 .retainLatestUntilLater(executor)
@@ -96,13 +95,14 @@ public class SyntaxHighlighting {
         while(matcher.find()) {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
-                            matcher.group("PAREN") != null ? "paren" :
-                                    matcher.group("BRACE") != null ? "brace" :
-                                            matcher.group("BRACKET") != null ? "bracket" :
-                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
-                                                            matcher.group("STRING") != null ? "string" :
-                                                                    matcher.group("COMMENT") != null ? "comment" :
-                                                                            null; /* never happens */ assert styleClass != null;
+                                matcher.group("BRACE") != null ? "brace" :
+                                        matcher.group("BRACKET") != null ? "bracket" :
+                                                matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                        matcher.group("STRING") != null ? "string" :
+                                                                matcher.group("COMMENT") != null ? "comment" :
+                                                                        matcher.group("PAREN") != null ? "paren" :
+                                                                                matcher.group("FUNCTION") != null ? "function" :
+                                                                                null; /* never happens */ assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
             lastKwEnd = matcher.end();
