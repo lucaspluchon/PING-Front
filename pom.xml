@@ -14,6 +14,11 @@
             <id>terminalfx-repo</id>
             <url>https://github.com/javaterminal/terminalfx/raw/master/releases</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <name>JitPack Repository</name>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <properties>
@@ -73,7 +78,11 @@
             <artifactId>json</artifactId>
             <version>20160810</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.projog</groupId>
+            <artifactId>projog-core</artifactId>
+            <version>0.7.0</version>
+        </dependency>
     </dependencies>
 
     <build>

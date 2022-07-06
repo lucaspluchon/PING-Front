@@ -31,7 +31,7 @@ public class SyntaxHighlighting {
     private static final String BRACE_PATTERN = "\\{|\\}";
     private static final String BRACKET_PATTERN = "\\[|\\]";
     private static final String SEMICOLON_PATTERN = "\\.";
-    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+    private static final String STRING_PATTERN = "'([^'\\\\]|\\\\.)*'";
     private static final String COMMENT_PATTERN = "%[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
     private static final String FUNCTION_PATTERN = "\\w+\\(";
 

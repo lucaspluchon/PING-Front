@@ -6,6 +6,7 @@ module com.example.pingfront {
     requires reactfx;
     requires com.kodedu.terminalfx;
     requires org.apache.commons.text;
+    requires projog.core;
 
     opens com.app.ping to javafx.fxml;
     exports com.app.ping;
