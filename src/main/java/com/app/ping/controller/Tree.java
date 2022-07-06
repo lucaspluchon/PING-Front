@@ -140,7 +140,7 @@ public class Tree {
         TreeItem<NodeClass> item = _projectTree.getSelectionModel().getSelectedItem();
         if (item != null)
         {
-            
+
             _codeTab.getTabs().removeIf(tab -> Objects.equals(tab.getText(), item.getValue().path.getFileName().toString()));
 
             item.getValue().path.toFile().delete();
