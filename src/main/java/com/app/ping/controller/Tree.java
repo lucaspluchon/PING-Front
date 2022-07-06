@@ -95,7 +95,7 @@ public class Tree {
         TreeItem<NodeClass> item = _projectTree.getSelectionModel().getSelectedItem();
         if (item != null)
         {
-            String name = Dialog.text("Choose a name", "Please enter a filename", "Filename");
+            String name = Dialog.text(LanguageSystem.config.getString("fileName"), LanguageSystem.config.getString("enterName"), LanguageSystem.config.getString("fileName"));
             String path;
             if (item.getValue().type == NodeType.FILE)
                 path = item.getValue().path.getParent().toAbsolutePath()+ "/" + name;
@@ -117,7 +117,7 @@ public class Tree {
         TreeItem<NodeClass> item = _projectTree.getSelectionModel().getSelectedItem();
         if (item != null)
         {
-            String name = Dialog.text("Choose a name", "Please enter a filename", "Filename");
+            String name = Dialog.text(LanguageSystem.config.getString("fileName"), LanguageSystem.config.getString("enterName"), LanguageSystem.config.getString("fileName"));
             Path file = item.getValue().path;
 
             Path newPath = Files.move(file, file.resolveSibling(name));

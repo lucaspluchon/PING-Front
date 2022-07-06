@@ -46,7 +46,7 @@
             </BorderPane>
             <SplitPane dividerPositions="0.9573578595317725" prefHeight="160.0" prefWidth="200.0">
               <items>
-                  <TabPane fx:id="codeTab" onMouseClicked="#updateIde" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" />
+                  <TabPane fx:id="codeTab" onMouseClicked="#updateIde" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="ALL_TABS" />
                   <TreeView fx:id="projectTree" prefHeight="200.0" prefWidth="200.0">
                      <contextMenu>
                         <ContextMenu>

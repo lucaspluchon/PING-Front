@@ -39,6 +39,8 @@ public class Controller {
 
     @FXML public TabPane resultTab;
 
+    public static Stage settingStage = null;
+
     public void initialize() throws IOException
 
     {
@@ -100,8 +102,9 @@ public class Controller {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("pute");
         Stage stage = new Stage();
-        stage.setTitle("Settings premier gaou");
+        stage.setTitle(LanguageSystem.config.getString("settings"));
         stage.setScene(scene);
         stage.show();
     }
@@ -116,7 +119,7 @@ public class Controller {
             throw new RuntimeException(e);
         }
         Stage stage = new Stage();
-        stage.setTitle("Settings premier gaou");
+        stage.setTitle(LanguageSystem.config.getString("documentation"));
         stage.setScene(scene);
         stage.show();
     }

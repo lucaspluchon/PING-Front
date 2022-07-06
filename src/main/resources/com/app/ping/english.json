@@ -7,5 +7,16 @@
   "openProject": "Open project",
   "runFile": "Run this file",
   "saveFile": "Save this file",
-  "unnamedFile": "Unnamed file"
+  "unnamedFile": "Unnamed file",
+  "settings": "Settings",
+  "documentation" : "Documentation",
+  "language": "Language",
+  "location": "Location (city)",
+  "done": "Done",
+  "error": "Error",
+  "cannotRun": "Cannot run this file",
+  "noFileOpened": "No file opened",
+  "enterName": "Please enter a filename",
+  "fileName": "Filename",
+  "docContent": "--- Premier Gaou documentation ---\n\n-- Window description --\n- Main tab : It's the IDE, containing all the code file\n- Upper tab : Contains result and terminal\n- Right tab : Contains the tree view when you open a project\n\n-- Main tab description --\n- Bottoms tabs : click on it to select already opened files\n- Center tab : it's the area where you can edit your file with autocompletation and syntaxic coloration\n\n-- Tree view description --\n- File/directory name : you will see a file/directory tree with a hierarchy you can click on it to open any file on the project\n- Create file (right click) : Create a file in the specified directory of project\n- Rename file (right click) : Rename the selected file\n- Delete file (right click) : Delete the selected file\n\n-- Buttons description -- \n- Menu : open the menu description\n- Result : show the result of the compilation of a prolog file\n- Terminal : open a terminal\n\n-- Menu description --\n- Create file : creates a file without name and without saving it\n- Open file : open a file in the editor tab\n- Open project : open a directory and all the sub-directories as a project (Only XML, PL, MD files)\n- Run this file : run the file in the current tab and show the result in the result tab\n- Save this file : save a file, if the file has know you can choose a name\n- Settings : open the settings window\n\n-- Settings description --\n- Language : you change change the language of the IDE\n- Location (city) : You can select a city. The IDE color will changed in function of the specified location weather\n- Done : Quit and save the settings"
 }

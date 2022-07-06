@@ -81,7 +81,7 @@ public class Menu
         if (file == null)
             return;
 
-        String name = Dialog.text("Choose a name", "Please enter a filename", "Filename");
+        String name = Dialog.text(LanguageSystem.config.getString("fileName"), LanguageSystem.config.getString("enterName"), LanguageSystem.config.getString("fileName"));
         if (name == null)
             return;
 

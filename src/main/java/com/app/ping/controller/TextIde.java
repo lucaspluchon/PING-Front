@@ -49,6 +49,7 @@ public class TextIde
 
         Tab newTab = new Tab(name, textEditor);
         newTab.setUserData(new FileInfo(file, textEditor));
+        newTab.setClosable(true);
         codeTab.getTabs().add(newTab);
         return newTab;
     }

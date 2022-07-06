@@ -39,7 +39,7 @@ public class CodeExecution
     {
         if (PingApp.actualFile == null)
         {
-            Dialog.error("Premier gaou Error", "Cannot run this file", "No file opened");
+            Dialog.error(LanguageSystem.config.getString("error"), LanguageSystem.config.getString("cannotRun"), LanguageSystem.config.getString("noFileOpened"));
             return;
         }
         TextIde.saveActualFile();
