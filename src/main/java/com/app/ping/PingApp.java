@@ -1,9 +1,6 @@
 package com.app.ping;
 
-import com.app.ping.controller.CodeExecution;
-import com.app.ping.controller.LanguageSystem;
-import com.app.ping.controller.Menu;
-import com.app.ping.controller.TextIde;
+import com.app.ping.controller.*;
 import com.app.ping.weather.WeatherManager;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,6 +33,7 @@ public class PingApp extends Application {
     {
         language = LanguageSystem.getLanguage();
         city = WeatherManager.getWeatherConfig();
+
 
         FXMLLoader fxmlLoader = new FXMLLoader(PingApp.class.getResource("mainPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);

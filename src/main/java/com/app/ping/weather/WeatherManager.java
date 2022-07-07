@@ -238,11 +238,6 @@ public class WeatherManager
 
         Color themeColor = buildColor(30, 25);
         backColor = toHex(themeColor);
-
-        //textEditor.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
-        _consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'", backColor, backColor));
-        _projectTree.setStyle(String.format("-fx-control-inner-background: '%s'", backColor));
-        _contextMenu.setStyle(String.format("-fx-background-color: '%s';", backColor));
     }
 
     public static void startTimer()

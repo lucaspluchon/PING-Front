@@ -64,7 +64,6 @@ public class Controller {
         resultTab.getTabs().add(terminal);
         resultTab.getSelectionModel().select(terminal);
         WeatherManager.startTimer();
-
     }
 
     @FXML protected void showMenu() { Menu.show(contextMenu, menuButton); }
@@ -103,7 +102,6 @@ public class Controller {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("pute");
         Stage stage = new Stage();
         stage.setTitle(LanguageSystem.config.getString("settings"));
         stage.setScene(scene);
