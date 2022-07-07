@@ -3,6 +3,7 @@ package com.app.ping.controller;
 import com.app.ping.Controller;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.TabPane;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -39,14 +40,18 @@ public class CSS {
         throw new RuntimeException();
     }
 
-    public static void setStyle(Parent node, String elm, String style) throws IOException {
-        if (node != null)
-            node.getStylesheets().clear();
+    private static void changeFile(String elm, String style) throws IOException {
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
         backup = new ArrayList<>(lines);
         int lineNumber = getStyleLine(lines, elm);
         lines.set(lineNumber, style);
         Files.write(path, lines, StandardCharsets.UTF_8);
+    }
+
+    public static void setStyle(Parent node, String elm, String style) throws IOException {
+        if (node != null)
+            node.getStylesheets().clear();
+        changeFile(elm, style);
         if (node != null)
             node.getStylesheets().add("style.css");
     }

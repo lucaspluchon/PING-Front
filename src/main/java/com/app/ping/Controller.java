@@ -38,6 +38,7 @@ public class Controller {
     public static TabPane _codeTab;
 
     @FXML public TabPane resultTab;
+    public static TabPane _resultTab;
 
     public static Stage settingStage = null;
 
@@ -48,6 +49,7 @@ public class Controller {
         _projectTree = projectTree;
         _consoleResult = consoleResult;
         _codeTab = codeTab;
+        _resultTab = resultTab;
 
         WeatherManager.startTimer();
 

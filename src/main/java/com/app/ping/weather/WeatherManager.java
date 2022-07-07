@@ -13,6 +13,7 @@ import java.util.TimerTask;
 
 import com.app.ping.NodeClass;
 import com.app.ping.PingApp;
+import com.app.ping.controller.CSS;
 import com.app.ping.controller.Tree;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -40,7 +41,7 @@ public class WeatherManager
      */
     private static final String OPEN_WEATHER_MAP_API_KEY = "ea57dfd61e2a2140837dcef81165fb74";
     public static String backColor;
-    public static String textColor;
+    public static String secondColor;
 
     public static Timer timer;
 
@@ -208,9 +209,12 @@ public class WeatherManager
         return "#" + color.toString().substring(2,8);
     }
 
-
-    public static void adaptWeather()
+    private static double clamp(double value)
     {
+        return Math.max(0, Math.min(1, value));
+    }
+
+    public static void adaptWeather() throws IOException {
         WeatherReport weather = WeatherManager.getWeatherReport();
 
         System.out.println(weather);
@@ -220,9 +224,16 @@ public class WeatherManager
             return;
         }
 
-        Color themeColor = buildColor(30, 25);
+        Color themeColor = buildColor(weather.rain(), weather.clouds());
         backColor = toHex(themeColor);
+        Color secondThemeColor = new Color(clamp(themeColor.getRed() * 1.20), clamp(themeColor.getGreen() * 1.20), clamp(themeColor.getBlue() * 1.20), 1);
+        secondColor = toHex(secondThemeColor);
+
+        CSS.setStyle(_resultTab, ".tab-header-background", String.format("-fx-background-color: %s;", backColor));
+        CSS.setStyle(_resultTab, ".tab-pane .tab:selected", String.format("-fx-background-color: %s;", secondColor));
+        CSS.setStyle(_consoleResult, ".text-area", String.format("-fx-control-inner-background: %s; -fx-background-color: %s", backColor, backColor));
     }
+
 
     public static void startTimer()
     {
@@ -248,7 +259,11 @@ public class WeatherManager
             @Override
             public void run()
             {
-                adaptWeather();
+                try {
+                    adaptWeather();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }, 0, 300000);
 
