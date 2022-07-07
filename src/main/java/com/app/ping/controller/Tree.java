@@ -4,7 +4,10 @@ import com.app.ping.Controller;
 import com.app.ping.NodeClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.fxmisc.richtext.CodeArea;
 
 import java.io.File;
@@ -20,6 +23,7 @@ import static com.app.ping.Controller._projectTree;
 
 public class Tree {
 
+
     public static ArrayList<TreeItem<NodeClass>> listItem = new ArrayList<>();
     public static void initFile(TreeView<NodeClass> tree, Path file)
     {
@@ -30,7 +34,11 @@ public class Tree {
 
     public static void initFolder(TabPane codeTab, TreeView<NodeClass> tree, File folder)
     {
-        TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, folder.toPath()));
+        ImageView folderIcon = new ImageView(new Image(Controller.class.getResourceAsStream("folder.png")));
+        folderIcon.setFitHeight(16);
+        folderIcon.setFitWidth(16);
+
+        TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, folder.toPath()), folderIcon);
         tree.setRoot(elm);
         listItem.add(elm);
 
@@ -73,17 +81,23 @@ public class Tree {
         {
             if (file.isDirectory())
             {
+                ImageView folderIcon = new ImageView(new Image(Controller.class.getResourceAsStream("folder.png")));
+                folderIcon.setFitHeight(16);
+                folderIcon.setFitWidth(16);
                 int index = root.getChildren().size();
-                TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, file.toPath()));
+                TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FOLDER, file.toPath()), folderIcon);
                 root.getChildren().add(elm);
                 listItem.add(elm);
                 populateProject(root.getChildren().get(index), file);
             }
             else
             {
+                ImageView fileIcon = new ImageView(new Image(Controller.class.getResourceAsStream("file.png")));
+                fileIcon.setFitHeight(16);
+                fileIcon.setFitWidth(16);
                 if (isCorrectFile(file.getName()))
                 {
-                    TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FILE, file.toPath()));
+                    TreeItem<NodeClass> elm = new TreeItem<>(new NodeClass(NodeType.FILE, file.toPath()), fileIcon);
                     listItem.add(elm);
                     root.getChildren().add(elm);
                 }
