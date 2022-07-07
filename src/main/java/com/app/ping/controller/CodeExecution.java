@@ -100,7 +100,14 @@ public class CodeExecution
         }
         else
         {
-            consoleResult.setStyle(String.format("-fx-text-fill: '%s'", "red"));
+            if (WeatherManager.isBlue())
+            {
+                consoleResult.setStyle(String.format("-fx-text-fill: '%s'", "orange"));
+            }
+            else
+            {
+                consoleResult.setStyle(String.format("-fx-text-fill: '%s'", "red"));
+            }
             showError(window, ((FileInfo) tabCode.getUserData()).textEditor(), result.lineError());
             consoleResult.setText(result.out());
         }

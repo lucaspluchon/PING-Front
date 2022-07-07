@@ -215,7 +215,7 @@ public class WeatherManager
     {
         return Math.max(0, Math.min(1, value));
     }
-    public static Boolean isBue()
+    public static Boolean isBlue()
     {
         return lastWeather.rain() > 15;
     }
