@@ -49,7 +49,7 @@ public class Controller {
         _consoleResult = consoleResult;
         _codeTab = codeTab;
 
-        //WeatherManager.startTimer();
+        WeatherManager.startTimer();
 
         TerminalConfig darkConfig = new TerminalConfig();
         darkConfig.setBackgroundColor(Color.rgb(16, 16, 16));
@@ -63,7 +63,6 @@ public class Controller {
 
         resultTab.getTabs().add(terminal);
         resultTab.getSelectionModel().select(terminal);
-        WeatherManager.startTimer();
     }
 
     @FXML protected void showMenu() { Menu.show(contextMenu, menuButton); }
