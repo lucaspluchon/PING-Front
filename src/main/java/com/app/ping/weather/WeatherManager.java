@@ -46,6 +46,8 @@ public class WeatherManager
 
     public static String apiLink;
 
+    public static  WeatherReport lastWeather = new WeatherReport(0, 0);
+
     public static String getWeatherConfig()
     {
         Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
@@ -208,10 +210,15 @@ public class WeatherManager
         return "#" + color.toString().substring(2,8);
     }
 
+    public static Boolean isBue()
+    {
+        return lastWeather.rain() > 15;
+    }
 
     public static void adaptWeather()
     {
         WeatherReport weather = WeatherManager.getWeatherReport();
+        WeatherManager.lastWeather = weather;
 
         System.out.println(weather);
         if (weather == null)
