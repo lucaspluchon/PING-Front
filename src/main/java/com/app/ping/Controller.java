@@ -38,6 +38,7 @@ public class Controller {
     public static TabPane _codeTab;
 
     @FXML public TabPane resultTab;
+    public static TabPane _resultTab;
 
     public static Stage settingStage = null;
 
@@ -48,6 +49,7 @@ public class Controller {
         _projectTree = projectTree;
         _consoleResult = consoleResult;
         _codeTab = codeTab;
+        _resultTab = resultTab;
 
         WeatherManager.startTimer();
 
@@ -63,7 +65,6 @@ public class Controller {
 
         resultTab.getTabs().add(terminal);
         resultTab.getSelectionModel().select(terminal);
-
     }
 
     @FXML protected void showMenu() { Menu.show(contextMenu, menuButton); }
@@ -102,7 +103,6 @@ public class Controller {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("pute");
         Stage stage = new Stage();
         stage.setTitle(LanguageSystem.config.getString("settings"));
         stage.setScene(scene);
