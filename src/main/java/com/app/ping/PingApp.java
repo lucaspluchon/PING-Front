@@ -16,6 +16,7 @@ import org.fxmisc.richtext.model.StyleSpans;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 public class PingApp extends Application {
@@ -29,8 +30,7 @@ public class PingApp extends Application {
 
 
     @Override
-    public void start(Stage stage) throws IOException
-    {
+    public void start(Stage stage) throws IOException, URISyntaxException {
         language = LanguageSystem.getLanguage();
         city = WeatherManager.getWeatherConfig();
 

@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -20,9 +21,8 @@ public class LanguageSystem
     public static JSONObject config = null;
 
 
-    public static Language getLanguage() throws IOException
-    {
-        Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
+    public static Language getLanguage() throws IOException, URISyntaxException {
+        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
         if (!Files.exists(path))
             return Language.English;
         JSONObject config;
@@ -44,7 +44,7 @@ public class LanguageSystem
         }
     }
 
-    public static void load(Scene window) throws IOException {
+    public static void load(Scene window) throws IOException, URISyntaxException {
         String file = null;
         if (PingApp.language == null || PingApp.language == Language.English)
             file = "english.json";
@@ -53,7 +53,7 @@ public class LanguageSystem
         else if (PingApp.language == Language.Greek)
             file = "greek.json";
 
-        config = new JSONObject(Files.readString(Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", file)));
+        config = new JSONObject(Files.readString(Path.of(PingApp.class.getResource(file).getPath())));
         reloadText(window) ;
     }
 

@@ -1,9 +1,11 @@
 package com.app.ping.controller;
 
 import com.app.ping.Language;
+import com.app.ping.PingApp;
 import javafx.util.Pair;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -11,10 +13,9 @@ import java.util.List;
 
 public class SnippetSystem
 {
-    public static ArrayList<Pair<String, String>> getSnippets()
-    {
+    public static ArrayList<Pair<String, String>> getSnippets() throws URISyntaxException {
         ArrayList<Pair<String, String>> res = new ArrayList<>();
-        Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "snippets.json");
+        Path path = Path.of(PingApp.class.getResource("snippets.json").getPath());
         if (!Files.exists(path))
             return null;
         JSONObject config;

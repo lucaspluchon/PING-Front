@@ -1,6 +1,7 @@
 package com.app.ping.controller;
 
 import com.app.ping.Controller;
+import com.app.ping.PingApp;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TabPane;
@@ -22,11 +23,7 @@ public class CSS {
     private static Path path;
 
     static {
-        try {
-            path = Paths.get(Controller.class.getResource("style.css").toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        path = Paths.get(Controller.class.getResource("style.css").getPath());
     }
 
 
@@ -53,6 +50,6 @@ public class CSS {
             node.getStylesheets().clear();
         changeFile(elm, style);
         if (node != null)
-            node.getStylesheets().add("style.css");
+            node.getStylesheets().add(PingApp.class.getResource("style.css").toString());
     }
 }

@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.Instant;
 
@@ -20,8 +21,7 @@ public class TextIde
 {
     private static long lastKeyPressed = 0;
 
-    public static Tab newFileTab(TabPane codeTab, File file)
-    {
+    public static Tab newFileTab(TabPane codeTab, File file) throws URISyntaxException {
         Tab exist = null;
         if (file != null)
         {

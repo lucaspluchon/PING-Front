@@ -51,7 +51,7 @@ public class WeatherManager
 
     public static String getWeatherConfig()
     {
-        Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
+        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
         JSONObject config;
         try
         {
@@ -242,8 +242,7 @@ public class WeatherManager
     }
 
 
-    public static void startTimer()
-    {
+    public static void startTimer() throws IOException {
         if (PingApp.city == null)
         {
             String ip = getIP();
@@ -258,7 +257,6 @@ public class WeatherManager
         {
             apiLink = "https://api.openweathermap.org/data/2.5/weather?q=" + PingApp.city + "&appid=" + OPEN_WEATHER_MAP_API_KEY;
         }
-
 
         WeatherManager.timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()

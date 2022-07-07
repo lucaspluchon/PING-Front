@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class Settings
     @FXML public Label locationLabel;
     @FXML public Label settings;
 
-    @FXML public void initialize() throws IOException {
+    @FXML public void initialize() throws IOException, URISyntaxException {
         languageCombo.getItems().add(Language.English.value());
         languageCombo.getItems().add(Language.Indian.value());
         languageCombo.getItems().add(Language.Greek.value());
@@ -46,7 +47,7 @@ public class Settings
         okButton.setText(LanguageSystem.config.getString("done"));
     }
 
-    @FXML protected void changeLanguage() throws IOException {
+    @FXML protected void changeLanguage() throws IOException, URISyntaxException {
         if (Objects.equals(languageCombo.getSelectionModel().getSelectedItem(), Language.English.value()))
             PingApp.language = Language.English;
         if (Objects.equals(languageCombo.getSelectionModel().getSelectedItem(), Language.Greek.value()))
@@ -55,7 +56,7 @@ public class Settings
             PingApp.language = Language.Indian;
         LanguageSystem.load(PingApp._scene);
 
-        Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
+        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
         JSONObject config;
         try
         {
@@ -76,7 +77,7 @@ public class Settings
     @FXML protected void closeWindow() throws IOException {
 
         PingApp.city = locationText.getText();
-        Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
+        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
         JSONObject config;
         try
         {
@@ -96,12 +97,12 @@ public class Settings
         {
             PingApp.city = null;
         }
-        FileWriter myWriter = new FileWriter(path.toString());
+        FileWriter myWriter = new FileWriter(path.toFile());
         myWriter.write(config.toString());
         myWriter.close();
 
         if (WeatherManager.timer != null)
-            WeatherManager.timer.cancel();
+            WeatherManager.timer.purge();
         WeatherManager.startTimer();
         Stage stage = (Stage) okButton.getScene().getWindow();
         stage.close();

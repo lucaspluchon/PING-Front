@@ -18,6 +18,7 @@ import org.fxmisc.richtext.CodeArea;
 
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 
 public class Controller {
@@ -68,7 +69,7 @@ public class Controller {
     }
 
     @FXML protected void showMenu() { Menu.show(contextMenu, menuButton); }
-    @FXML protected void openFile() throws IOException {
+    @FXML protected void openFile() throws IOException, URISyntaxException {
         Menu.openFile(menuButton, codeTab);
     }
     @FXML protected void openFolder() throws IOException {
@@ -77,7 +78,7 @@ public class Controller {
     @FXML protected void executeCode() throws IOException, InterruptedException {
         CodeExecution.execute(consoleResult, resultTab, window, consoleResultTab);
     }
-    @FXML protected void createFile() throws IOException {
+    @FXML protected void createFile() throws IOException, URISyntaxException {
         Menu.createFile(codeTab);
     }
     @FXML protected void saveFile() throws IOException {

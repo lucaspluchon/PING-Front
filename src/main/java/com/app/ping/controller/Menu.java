@@ -11,6 +11,7 @@ import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static com.app.ping.controller.TextIde.newFileTab;
 
@@ -36,7 +37,7 @@ public class Menu
         contextMenu.show(menuButton.getScene().getWindow(), position.getCenterX(), position.getCenterY());
     }
 
-    public static void openFile(Button menuButton, TabPane codeTab) throws IOException {
+    public static void openFile(Button menuButton, TabPane codeTab) throws IOException, URISyntaxException {
         File file = fileChooser.showOpenDialog(menuButton.getScene().getWindow());
         if (file != null)
         {
@@ -61,8 +62,7 @@ public class Menu
         }
     }
 
-    public static void createFile(TabPane codeTab)
-    {
+    public static void createFile(TabPane codeTab) throws URISyntaxException {
        Tab tab = newFileTab(codeTab, null);
        PingApp.actualEditor = ((FileInfo) tab.getUserData()).textEditor();
        PingApp.actualFile = null;
