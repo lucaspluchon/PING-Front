@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.Timer;
@@ -51,7 +52,7 @@ public class WeatherManager
         JSONObject config;
         try
         {
-            config = new JSONObject(path);
+            config = new JSONObject(Files.readString(path));
         }
         catch (Exception e)
         {
@@ -146,23 +147,6 @@ public class WeatherManager
             return 0;
         JSONObject clouds = (JSONObject) data.get("rain");
         return (double) clouds.get("1h");
-    }
-
-    public static Color buildCloudColor(int cloud)
-    {
-        int beginRed = 117;
-        int beginGreen = 170;
-        int beginBlue = 255;
-
-        int endRed = 130;
-        int endGreen = 130;
-        int endBlue = 130;
-
-        return Color.rgb(
-                (int) (beginRed + ((int) (cloud * (endRed - beginRed) / 100))),//RED
-                (int) (beginGreen + ((int) (cloud * (endGreen - beginGreen) / 100))), // GREEN
-                (int) (beginBlue + ((int) (cloud * (endBlue - beginBlue) / 100)))// BLUE
-        );
     }
 
     public static Color buildColor(int rain, int clouds)
@@ -263,7 +247,7 @@ public class WeatherManager
         }
 
 
-        Timer timer = new Timer();
+        WeatherManager.timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
         {
             @Override

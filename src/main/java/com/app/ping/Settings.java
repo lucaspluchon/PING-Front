@@ -32,6 +32,9 @@ public class Settings
         languageCombo.getItems().add(Language.Indian.value());
         languageCombo.getItems().add(Language.Greek.value());
         languageCombo.getSelectionModel().select(Objects.requireNonNull(LanguageSystem.getLanguage()).value());
+        String city = WeatherManager.getWeatherConfig();
+        System.out.println(city);
+        locationText.setText(city != null ? city: "");
         reload();
     }
 
@@ -63,6 +66,7 @@ public class Settings
             config = new JSONObject();
         }
         config.put("language", PingApp.language.toString());
+        config.put("city", PingApp.city);
         FileWriter myWriter = new FileWriter(path.toString());
         myWriter.write(config.toString());
         myWriter.close();
@@ -71,27 +75,34 @@ public class Settings
 
     @FXML protected void closeWindow() throws IOException {
 
-        if (!Objects.equals(locationText.getText(), ""))
+        PingApp.city = locationText.getText();
+        Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
+        JSONObject config;
+        try
         {
-            PingApp.city = locationText.getText();
-            Path path = Path.of(System.getProperty("user.dir"), "src/main/resources/com/app/ping", "config.json");
-            JSONObject config;
-            try
-            {
-                config = new JSONObject(path);
-            }
-            catch (Exception e)
-            {
-                config = new JSONObject();
-            }
-            config.put("city", PingApp.city);
-            FileWriter myWriter = new FileWriter(path.toString());
-            myWriter.write(config.toString());
-            myWriter.close();
-
-            WeatherManager.timer.cancel();
-            WeatherManager.startTimer();
+            config = new JSONObject(path);
         }
+        catch (Exception e)
+        {
+            config = new JSONObject();
+        }
+        config.put("language", PingApp.language.toString());
+        String newCity = locationText.getText();
+        if (!Objects.equals(newCity, ""))
+        {
+            config.put("city", PingApp.city);
+        }
+        else
+        {
+            PingApp.city = null;
+        }
+        FileWriter myWriter = new FileWriter(path.toString());
+        myWriter.write(config.toString());
+        myWriter.close();
+
+        if (WeatherManager.timer != null)
+            WeatherManager.timer.cancel();
+        WeatherManager.startTimer();
         Stage stage = (Stage) okButton.getScene().getWindow();
         stage.close();
     }

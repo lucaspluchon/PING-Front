@@ -5,6 +5,7 @@ import com.app.ping.PingApp;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -34,7 +35,13 @@ public class LanguageSystem
             return Language.English;
         }
 
-        return Language.valueOf(config.getString("language"));
+        try {
+            return Language.valueOf(config.getString("language"));
+        }
+        catch (JSONException e)
+        {
+            return Language.English;
+        }
     }
 
     public static void load(Scene window) throws IOException {
