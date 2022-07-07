@@ -34,7 +34,7 @@ public class AutoComplete
             ":-", "initialization", "main"
     };
 
-    private static final ArrayList<Pair<String, String>> snippets = new ArrayList<Pair<String, String>>();
+    private static ArrayList<Pair<String, String>> snippets = new ArrayList<Pair<String, String>>();
 
 
     private final CodeArea textEditor;
@@ -91,7 +91,7 @@ public class AutoComplete
 
     private void setSnippets()
     {
-        snippets.add(new Pair<>("init", ":- initialization(main)."));
+        snippets = SnippetSystem.getSnippets();
     }
 
     public List<Pair<String, String>> getAutocomplet(String text)
