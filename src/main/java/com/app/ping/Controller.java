@@ -63,6 +63,7 @@ public class Controller {
 
         resultTab.getTabs().add(terminal);
         resultTab.getSelectionModel().select(terminal);
+        WeatherManager.startTimer();
 
     }
 

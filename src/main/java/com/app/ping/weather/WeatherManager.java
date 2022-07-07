@@ -165,16 +165,37 @@ public class WeatherManager
         );
     }
 
-    public static Color buildRainColor(int rain)
+    public static Color buildColor(int rain, int clouds)
     {
-        if (rain == 0)
+        int beginRed = 255;
+        int beginGreen = 197;
+        int beginBlue = 0;
+
+        int endRed = 183;
+        int endGreen = 166;
+        int endBlue = 108;
+
+        if (rain <= 15)
         {
-            return Color.rgb(252, 211, 76);
+            return Color.rgb(
+                    (int) (beginRed + ((int) (clouds * (endRed - beginRed) / 100))),//RED
+                    (int) (beginGreen + ((int) (clouds * (endGreen - beginGreen) / 100))), // GREEN
+                    (int) (beginBlue + ((int) (clouds * (endBlue - beginBlue) / 100)))// BLUE
+            );
         }
+
+        beginRed = 0;
+        beginGreen = 112;
+        beginBlue = 255;
+
+        endRed = 98;
+        endGreen = 125;
+        endBlue = 158;
+
         return Color.rgb(
-                0,//RED
-                (int) (220 - (rain * 2.2)), // GREEN
-                255// BLUE
+                (int) (beginRed + ((int) (clouds * (endRed - beginRed) / 100))),//RED
+                (int) (beginGreen + ((int) (clouds * (endGreen - beginGreen) / 100))), // GREEN
+                (int) (beginBlue + ((int) (clouds * (endBlue - beginBlue) / 100)))// BLUE
         );
     }
 
@@ -215,13 +236,11 @@ public class WeatherManager
             return;
         }
 
-        Color cloudColor = buildCloudColor(weather.clouds()); // Cloud color (background)
-        Color rainColor = buildRainColor(weather.rain()); // Rain color (text foreground)
-        backColor = toHex(cloudColor);
-        textColor = toHex(rainColor);
+        Color themeColor = buildColor(30, 25);
+        backColor = toHex(themeColor);
 
         //textEditor.setBackground(new Background(new BackgroundFill(cloudColor, CornerRadii.EMPTY, Insets.EMPTY)));
-        _consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'; -fx-text-fill: '%s'", backColor, backColor, textColor));
+        _consoleResult.setStyle(String.format("-fx-control-inner-background: '%s'; -fx-background-color: '%s'", backColor, backColor));
         _projectTree.setStyle(String.format("-fx-control-inner-background: '%s'", backColor));
         _contextMenu.setStyle(String.format("-fx-background-color: '%s';", backColor));
     }
