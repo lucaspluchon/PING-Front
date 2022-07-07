@@ -1,6 +1,5 @@
 package com.app.ping.controller;
 
-import com.app.ping.Language;
 import com.app.ping.PingApp;
 import javafx.util.Pair;
 import org.json.JSONObject;
@@ -9,7 +8,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SnippetSystem
 {

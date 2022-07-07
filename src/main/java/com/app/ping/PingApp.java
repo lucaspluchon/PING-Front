@@ -4,20 +4,14 @@ import com.app.ping.controller.*;
 import com.app.ping.weather.WeatherManager;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.model.StyleSpans;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 
 public class PingApp extends Application {
     public static File projectFolder = null;
@@ -55,7 +49,7 @@ public class PingApp extends Application {
         scene.getStylesheets().add(Controller.class.getResource("java-keywords.css").toExternalForm());
     }
 
-    public static void main(String[] args) {
+    public static void start() {
         launch();
     }
 

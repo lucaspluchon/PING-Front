@@ -2,14 +2,9 @@ package com.app.ping.controller;
 
 import com.app.ping.Controller;
 import com.app.ping.PingApp;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.TabPane;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;

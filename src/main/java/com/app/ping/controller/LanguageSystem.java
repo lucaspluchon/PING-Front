@@ -2,7 +2,6 @@ package com.app.ping.controller;
 
 import com.app.ping.Language;
 import com.app.ping.PingApp;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.json.JSONException;
@@ -22,7 +21,16 @@ public class LanguageSystem
 
 
     public static Language getLanguage() throws IOException, URISyntaxException {
-        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
+        Path path = null;
+        try
+        {
+            path = Path.of(PingApp.class.getResource("config.json").getPath());
+        }
+        catch (Exception e)
+        {
+            return Language.English;
+        }
+
         if (!Files.exists(path))
             return Language.English;
         JSONObject config;

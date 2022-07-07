@@ -7,29 +7,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.app.ping.NodeClass;
 import com.app.ping.PingApp;
 import com.app.ping.controller.CSS;
-import com.app.ping.controller.Tree;
-import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
-import org.fxmisc.richtext.CodeArea;
 import org.json.JSONObject;
-import com.app.ping.Controller;
 
 import static com.app.ping.Controller.*;
 
@@ -51,7 +36,16 @@ public class WeatherManager
 
     public static String getWeatherConfig()
     {
-        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
+        Path path = null;
+        try
+        {
+            path = Path.of(PingApp.class.getResource("config.json").getPath());
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+
         JSONObject config;
         try
         {

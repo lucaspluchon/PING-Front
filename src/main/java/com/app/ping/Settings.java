@@ -1,10 +1,8 @@
 package com.app.ping;
 
 import com.app.ping.controller.LanguageSystem;
-import com.app.ping.controller.Menu;
 import com.app.ping.weather.WeatherManager;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,7 +13,6 @@ import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -77,16 +74,26 @@ public class Settings
     @FXML protected void closeWindow() throws IOException {
 
         PingApp.city = locationText.getText();
-        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
         JSONObject config;
+
         try
         {
-            config = new JSONObject(path);
+            Path path = Path.of(PingApp.class.getResource("config.json").getPath());
+            try
+            {
+                config = new JSONObject(path);
+            }
+            catch (Exception e)
+            {
+                config = new JSONObject();
+            }
         }
         catch (Exception e)
         {
             config = new JSONObject();
         }
+
+
         config.put("language", PingApp.language.toString());
         String newCity = locationText.getText();
         if (!Objects.equals(newCity, ""))
@@ -97,7 +104,7 @@ public class Settings
         {
             PingApp.city = null;
         }
-        FileWriter myWriter = new FileWriter(path.toFile());
+        FileWriter myWriter = new FileWriter(Path.of(PingApp.class.getResource("config.json").getPath()).toFile());
         myWriter.write(config.toString());
         myWriter.close();
 

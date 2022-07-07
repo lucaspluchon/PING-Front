@@ -1,11 +1,8 @@
 package com.app.ping.controller;
 
-import com.app.ping.Controller;
 import com.app.ping.PingApp;
-import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
@@ -15,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.time.Instant;
 
 public class TextIde
 {

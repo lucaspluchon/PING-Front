@@ -5,7 +5,6 @@ import com.app.ping.controller.Menu;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import com.kodedu.terminalfx.config.TerminalConfig;
-import javafx.concurrent.Task;
 import com.app.ping.weather.WeatherManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.fxmisc.richtext.CodeArea;
 
 
 import java.io.IOException;
