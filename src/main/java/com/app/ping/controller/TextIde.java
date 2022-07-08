@@ -17,7 +17,7 @@ public class TextIde
 {
     private static long lastKeyPressed = 0;
 
-    public static Tab newFileTab(TabPane codeTab, File file) throws URISyntaxException {
+    public static Tab newFileTab(TabPane codeTab, File file) throws URISyntaxException, IOException {
         Tab exist = null;
         if (file != null)
         {

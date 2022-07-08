@@ -61,7 +61,7 @@ public class Menu
         }
     }
 
-    public static void createFile(TabPane codeTab) throws URISyntaxException {
+    public static void createFile(TabPane codeTab) throws URISyntaxException, IOException {
        Tab tab = newFileTab(codeTab, null);
        PingApp.actualEditor = ((FileInfo) tab.getUserData()).textEditor();
        PingApp.actualFile = null;

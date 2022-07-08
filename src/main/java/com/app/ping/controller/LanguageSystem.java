@@ -24,7 +24,9 @@ public class LanguageSystem
         Path path = null;
         try
         {
-            path = Path.of(PingApp.class.getResource("config.json").getPath());
+            path = Path.of(System.getProperty("user.home"),"config.json");
+            if (!path.toFile().exists())
+                return Language.English;
         }
         catch (Exception e)
         {
@@ -61,7 +63,7 @@ public class LanguageSystem
         else if (PingApp.language == Language.Greek)
             file = "greek.json";
 
-        config = new JSONObject(Files.readString(Path.of(PingApp.class.getResource(file).getPath())));
+        config = new JSONObject(PingApp.readRessource(file));
         reloadText(window) ;
     }
 

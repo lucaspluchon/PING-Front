@@ -9,9 +9,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.util.List;
 
 public class PingApp extends Application {
     public static File projectFolder = null;
@@ -25,6 +26,11 @@ public class PingApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, URISyntaxException {
+
+        Path path = Path.of(System.getProperty("user.home"),"config.json");
+        if (!path.toFile().exists())
+            path.toFile().createNewFile();
+
         language = LanguageSystem.getLanguage();
         city = WeatherManager.getWeatherConfig();
 
@@ -47,6 +53,29 @@ public class PingApp extends Application {
         });
 
         scene.getStylesheets().add(Controller.class.getResource("java-keywords.css").toExternalForm());
+    }
+
+    public static String readRessource(String name) throws IOException {
+        InputStream in = PingApp.class.getResourceAsStream(name);
+        BufferedReader reader = null;
+        try
+        {
+            reader = new BufferedReader(new InputStreamReader(in));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        StringBuilder res = new StringBuilder();
+        String line;
+        if (reader != null)
+        {
+            while ((line = reader.readLine()) != null)
+            {
+                res.append(line);
+            }
+        }
+        return res.toString();
     }
 
     public static void start() {

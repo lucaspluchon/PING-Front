@@ -15,6 +15,7 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.reactfx.Subscription;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.*;
@@ -45,7 +46,7 @@ public class AutoComplete
     public Boolean isActive = true;
 
 
-    public AutoComplete(CodeArea textEditor) throws URISyntaxException {
+    public AutoComplete(CodeArea textEditor) throws URISyntaxException, IOException {
         this.textEditor = textEditor;
         this.executor = Executors.newSingleThreadExecutor();
         setSnippets();
@@ -89,7 +90,7 @@ public class AutoComplete
         });
     }
 
-    private void setSnippets() throws URISyntaxException {
+    private void setSnippets() throws URISyntaxException, IOException {
         snippets = SnippetSystem.getSnippets();
     }
 

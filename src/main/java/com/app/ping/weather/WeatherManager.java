@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.app.ping.Language;
 import com.app.ping.PingApp;
 import com.app.ping.controller.CSS;
 import javafx.scene.paint.Color;
@@ -39,7 +40,9 @@ public class WeatherManager
         Path path = null;
         try
         {
-            path = Path.of(PingApp.class.getResource("config.json").getPath());
+            path = Path.of(System.getProperty("user.home"),"config.json");
+            if (!path.toFile().exists())
+                return null;
         }
         catch (Exception e)
         {
@@ -211,7 +214,9 @@ public class WeatherManager
     }
     public static Boolean isBlue()
     {
-        return lastWeather.rain() > 15;
+        if (lastWeather != null)
+            return lastWeather.rain() > 15;
+        return false;
     }
 
     public static void adaptWeather() throws IOException {

@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -53,7 +54,9 @@ public class Settings
             PingApp.language = Language.Indian;
         LanguageSystem.load(PingApp._scene);
 
-        Path path = Path.of(PingApp.class.getResource("config.json").getPath());
+        Path path = Path.of(System.getProperty("user.home"),"config.json");
+        if (!path.toFile().exists())
+            path.toFile().createNewFile();
         JSONObject config;
         try
         {
@@ -78,7 +81,7 @@ public class Settings
 
         try
         {
-            Path path = Path.of(PingApp.class.getResource("config.json").getPath());
+            Path path = Path.of(System.getProperty("user.home"),"config.json");
             try
             {
                 config = new JSONObject(path);
@@ -104,7 +107,10 @@ public class Settings
         {
             PingApp.city = null;
         }
-        FileWriter myWriter = new FileWriter(Path.of(PingApp.class.getResource("config.json").getPath()).toFile());
+        File file = Path.of(System.getProperty("user.home"),"config.json").toFile();
+        if (!file.exists())
+            file.createNewFile();
+        FileWriter myWriter = new FileWriter(file);
         myWriter.write(config.toString());
         myWriter.close();
 
