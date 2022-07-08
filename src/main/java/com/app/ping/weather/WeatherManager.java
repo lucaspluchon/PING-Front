@@ -215,7 +215,9 @@ public class WeatherManager
     }
 
     public static void adaptWeather() throws IOException {
-        WeatherReport weather = WeatherManager.getWeatherReport();
+        System.out.println("Adapting");
+        System.out.println(apiLink);
+        WeatherReport weather = new WeatherReport(0, 0);
         WeatherManager.lastWeather = weather;
 
         System.out.println(weather);
@@ -229,6 +231,15 @@ public class WeatherManager
         backColor = toHex(themeColor);
         Color secondThemeColor = new Color(clamp(themeColor.getRed() * 1.20), clamp(themeColor.getGreen() * 1.20), clamp(themeColor.getBlue() * 1.20), 1);
         secondColor = toHex(secondThemeColor);
+
+        try
+        {
+            Thread.sleep(10000);
+        } catch (Exception e)
+        {
+            System.err.println("fail");
+        }
+        System.out.println("Done sleep");
 
         CSS.setStyle(_resultTab, ".tab-header-background", String.format("-fx-background-color: %s;", backColor));
         CSS.setStyle(_resultTab, ".tab-pane .tab:selected", String.format("-fx-background-color: %s;", secondColor));
