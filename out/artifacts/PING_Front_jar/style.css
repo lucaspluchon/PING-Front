@@ -1,0 +1,38 @@
+@font-face
+{
+    font-family: "JetBrains Mono";
+    src: url("JetBrainsMono-Regular.ttf");
+}
+
+
+.error_linter
+{
+    -rtfx-background-color: red;
+}
+
+.tab-header-background
+{
+-fx-background-color: #c9ae51;
+}
+
+.tab
+{
+    -fx-background-color: #26262600;
+}
+
+.text-area
+{
+-fx-control-inner-background: #c9ae51; -fx-background-color: #c9ae51
+}
+
+.tab-pane .tab:selected
+{
+-fx-background-color: #f1d161;
+}
+
+
+.code-area .text
+{
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 14px;
+}

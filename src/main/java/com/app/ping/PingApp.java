@@ -26,7 +26,7 @@ public class PingApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, URISyntaxException {
-
+        copyRessource("style.css");
         Path path = Path.of(System.getProperty("user.home"),"config.json");
         if (!path.toFile().exists())
             path.toFile().createNewFile();
@@ -55,6 +55,22 @@ public class PingApp extends Application {
         scene.getStylesheets().add(Controller.class.getResource("java-keywords.css").toExternalForm());
     }
 
+    public static void copyRessource(String name) throws IOException {
+        String style = readRessource("style.css");
+        File file = Path.of(System.getProperty("user.dir"),"style.css").toFile();
+        file.createNewFile();
+        try
+        {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(style);
+            fileWriter.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public static String readRessource(String name) throws IOException {
         InputStream in = PingApp.class.getResourceAsStream(name);
         BufferedReader reader = null;
@@ -73,6 +89,7 @@ public class PingApp extends Application {
             while ((line = reader.readLine()) != null)
             {
                 res.append(line);
+                res.append("\n");
             }
         }
         return res.toString();

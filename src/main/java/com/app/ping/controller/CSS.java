@@ -18,7 +18,7 @@ public class CSS {
     private static Path path;
 
     static {
-        path = Paths.get(Controller.class.getResource("style.css").getPath());
+        path = Path.of(System.getProperty("user.dir"),"style.css");
     }
 
 
@@ -45,6 +45,6 @@ public class CSS {
             node.getStylesheets().clear();
         changeFile(elm, style);
         if (node != null)
-            node.getStylesheets().add(PingApp.class.getResource("style.css").toString());
+            node.getStylesheets().add("file:style.css");
     }
 }
